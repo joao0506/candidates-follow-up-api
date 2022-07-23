@@ -27,6 +27,11 @@ public class MotivoRetornoResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @GetMapping("/{idMotivoRetorno}")
+    public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
+        return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
+    }
+
     @GetMapping
     public ResponseEntity<?> buscarMotivosDeRetorno(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage
@@ -35,9 +40,12 @@ public class MotivoRetornoResource {
         return ResponseEntity.ok(motivosDeRetorno);
     }
 
-    @GetMapping("/{idMotivoRetorno}")
-    public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
-        return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
+    @GetMapping("/descricao/{descricaoMotivoRetorno}")
+    public ResponseEntity<?> buscarMotivoDeRetornoPorDescricao(@PathVariable String descricaoMotivoRetorno,
+                                                               @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                               @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+        Page<MotivoRetorno> motivosDeRetorno = motivoRetornoService.buscarMotivoDeRetornoPorDescricao(descricaoMotivoRetorno, page, linesPerPage);
+        return ResponseEntity.ok(motivosDeRetorno);
     }
 
 }

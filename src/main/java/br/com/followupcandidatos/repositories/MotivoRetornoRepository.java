@@ -11,8 +11,9 @@ import java.util.Optional;
 @Repository
 public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, Integer> {
 
-    Page<MotivoRetorno> findAll(Pageable pageable);
-
     Optional<MotivoRetorno> findById(Integer idMotivoDeRetorno);
 
+    Page<MotivoRetorno> findAll(Pageable pageable);
+
+    Page<MotivoRetorno> findByDescricao(String descricaoMotivoRetorno, Pageable pageable);
 }

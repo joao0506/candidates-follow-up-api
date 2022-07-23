@@ -25,15 +25,22 @@ public class MotivoRetornoService {
     }
 
     @Transactional
+    public MotivoRetorno buscarMotivoDeRetornoPorId(Integer idMotivoRetorno)  {
+        Optional<MotivoRetorno> motivoRetorno = motivoRetornoRepository.findById(idMotivoRetorno);
+        return motivoRetorno.orElseThrow(() -> new ObjectNotFoundException("Motivo de Retorno não encontrado!"));
+    }
+
+    @Transactional
     public Page<MotivoRetorno> buscarMotivosDeRetorno(Integer page, Integer linesPerPage) {
         Pageable pageRequest = PageRequest.of(page, linesPerPage);
         return motivoRetornoRepository.findAll(pageRequest);
     }
 
     @Transactional
-    public MotivoRetorno buscarMotivoDeRetornoPorId(Integer idMotivoRetorno)  {
-        Optional<MotivoRetorno> motivoRetorno = motivoRetornoRepository.findById(idMotivoRetorno);
-        return motivoRetorno.orElseThrow(() -> new ObjectNotFoundException("Motivo de Retorno não encontrado!"));
+    public Page<MotivoRetorno> buscarMotivoDeRetornoPorDescricao(String descricaoMotivoRetorno, Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        Page<MotivoRetorno> motivosRetorno = motivoRetornoRepository.findByDescricao(descricaoMotivoRetorno, pageRequest);
+        return motivosRetorno;
     }
 
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){
