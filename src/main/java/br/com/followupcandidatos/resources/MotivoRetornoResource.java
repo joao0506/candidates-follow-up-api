@@ -4,6 +4,7 @@ import br.com.followupcandidatos.domain.MotivoRetorno;
 import br.com.followupcandidatos.domain.dtos.MotivoRetornoDTO;
 import br.com.followupcandidatos.services.MotivoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,6 +25,14 @@ public class MotivoRetornoResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(motivoRetorno.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<?> buscarMotivosDeRetorno(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage
+                                                    ){
+        Page<MotivoRetorno> motivosDeRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
+        return ResponseEntity.ok().body(motivosDeRetorno);
     }
 
 }
