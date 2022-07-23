@@ -1,13 +1,13 @@
 package br.com.followupcandidatos.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -16,9 +16,14 @@ import javax.persistence.Table;
 @Table(name = "motivo_de_retorno")
 public class MotivoRetorno {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GenericGenerator(name = "INCREMENT", strategy = "INCREMENT")
+    @Column(columnDefinition = "SERIAL")
     private Integer id;
+
     @Column(length = 60)
     private String descricao;
+
     private Boolean isAtivo;
 
     public MotivoRetorno(Integer id, String descricao, Boolean isAtivo){
