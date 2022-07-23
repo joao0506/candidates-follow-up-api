@@ -2,15 +2,16 @@ package br.com.followupcandidatos.services;
 
 import br.com.followupcandidatos.domain.MotivoRetorno;
 import br.com.followupcandidatos.domain.dtos.MotivoRetornoDTO;
+import br.com.followupcandidatos.exceptions.ObjectNotFoundException;
 import br.com.followupcandidatos.repositories.MotivoRetornoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class MotivoRetornoService {
@@ -27,6 +28,12 @@ public class MotivoRetornoService {
     public Page<MotivoRetorno> buscarMotivosDeRetorno(Integer page, Integer linesPerPage) {
         Pageable pageRequest = PageRequest.of(page, linesPerPage);
         return motivoRetornoRepository.findAll(pageRequest);
+    }
+
+    @Transactional
+    public MotivoRetorno buscarMotivoDeRetornoPorId(Integer idMotivoRetorno)  {
+        Optional<MotivoRetorno> motivoRetorno = motivoRetornoRepository.findById(idMotivoRetorno);
+        return motivoRetorno.orElseThrow(() -> new ObjectNotFoundException("Motivo de Retorno não encontrado!"));
     }
 
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){

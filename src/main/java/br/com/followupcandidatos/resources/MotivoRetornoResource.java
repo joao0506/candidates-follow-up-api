@@ -32,7 +32,12 @@ public class MotivoRetornoResource {
                                                     @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage
                                                     ){
         Page<MotivoRetorno> motivosDeRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
-        return ResponseEntity.ok().body(motivosDeRetorno);
+        return ResponseEntity.ok(motivosDeRetorno);
+    }
+
+    @GetMapping("/{idMotivoRetorno}")
+    public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
+        return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
     }
 
 }
