@@ -48,6 +48,12 @@ public class MotivoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{idMotivoRetorno}")
+    public ResponseEntity<?> deletarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno){
+        motivoRetornoService.deletarMotivoRetorno(idMotivoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
         return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
