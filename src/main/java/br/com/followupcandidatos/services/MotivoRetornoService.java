@@ -39,8 +39,13 @@ public class MotivoRetornoService {
     @Transactional
     public Page<MotivoRetorno> buscarMotivoDeRetornoPorDescricao(String descricaoMotivoRetorno, Integer page, Integer linesPerPage) {
         Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        Page<MotivoRetorno> motivosRetorno = motivoRetornoRepository.findByDescricao(descricaoMotivoRetorno, pageRequest);
-        return motivosRetorno;
+        return  motivoRetornoRepository.findByDescricao(descricaoMotivoRetorno, pageRequest);
+    }
+
+    @Transactional
+    public Page<MotivoRetorno> buscarMotivosDeRetornoDesabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return motivoRetornoRepository.findAllMotivosDeRetornoDisabled(pageRequest);
     }
 
     @Transactional

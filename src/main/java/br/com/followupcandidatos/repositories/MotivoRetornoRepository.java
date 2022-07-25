@@ -19,6 +19,9 @@ public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, In
 
     Page<MotivoRetorno> findByDescricao(String descricaoMotivoRetorno, Pageable pageable);
 
+    @Query(value = "SELECT m FROM MotivoRetorno m WHERE m.isAtivo IS FALSE")
+    Page<MotivoRetorno> findAllMotivosDeRetornoDisabled(Pageable pageable);
+
     @Modifying
     @Query(value = "UPDATE MotivoRetorno m SET m.isAtivo = false WHERE m.id = ?1")
     void disableMotivoRetorno(Integer idMotivoRetorno);

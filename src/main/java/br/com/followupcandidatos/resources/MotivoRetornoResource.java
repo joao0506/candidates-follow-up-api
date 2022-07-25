@@ -49,18 +49,24 @@ public class MotivoRetornoResource {
 
     @GetMapping
     public ResponseEntity<?> buscarMotivosDeRetorno(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                    @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage
-                                                    ){
-        Page<MotivoRetorno> motivosDeRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
-        return ResponseEntity.ok(motivosDeRetorno);
+                                                    @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+        Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
+        return ResponseEntity.ok(motivosRetorno);
     }
 
     @GetMapping("/descricao/{descricaoMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorDescricao(@PathVariable String descricaoMotivoRetorno,
                                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
-        Page<MotivoRetorno> motivosDeRetorno = motivoRetornoService.buscarMotivoDeRetornoPorDescricao(descricaoMotivoRetorno, page, linesPerPage);
-        return ResponseEntity.ok(motivosDeRetorno);
+        Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivoDeRetornoPorDescricao(descricaoMotivoRetorno, page, linesPerPage);
+        return ResponseEntity.ok(motivosRetorno);
+    }
+
+    @GetMapping("/desabilitados")
+    public ResponseEntity<?> buscarMotivosDeRetornoDesabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                 @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+        Page<MotivoRetorno> motivosRetornoDesabilitados = motivoRetornoService.buscarMotivosDeRetornoDesabilitados(page, linesPerPage);
+        return ResponseEntity.ok(motivosRetornoDesabilitados);
     }
 
 }
