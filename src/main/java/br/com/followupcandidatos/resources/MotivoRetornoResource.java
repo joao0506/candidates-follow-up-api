@@ -42,6 +42,12 @@ public class MotivoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/habilitar/{idMotivoRetorno}")
+    public ResponseEntity<?> habilitarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno){
+        motivoRetornoService.habilitarMotivoDeRetorno(idMotivoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
         return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
@@ -49,7 +55,7 @@ public class MotivoRetornoResource {
 
     @GetMapping
     public ResponseEntity<?> buscarMotivosDeRetorno(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                    @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+                                                    @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
         Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
         return ResponseEntity.ok(motivosRetorno);
     }
@@ -57,14 +63,14 @@ public class MotivoRetornoResource {
     @GetMapping("/descricao/{descricaoMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorDescricao(@PathVariable String descricaoMotivoRetorno,
                                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                               @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+                                                               @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
         Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivoDeRetornoPorDescricao(descricaoMotivoRetorno, page, linesPerPage);
         return ResponseEntity.ok(motivosRetorno);
     }
 
     @GetMapping("/desabilitados")
     public ResponseEntity<?> buscarMotivosDeRetornoDesabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                 @RequestParam(value = "linesPerPage", defaultValue = "24")  Integer linesPerPage){
+                                                                 @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
         Page<MotivoRetorno> motivosRetornoDesabilitados = motivoRetornoService.buscarMotivosDeRetornoDesabilitados(page, linesPerPage);
         return ResponseEntity.ok(motivosRetornoDesabilitados);
     }
