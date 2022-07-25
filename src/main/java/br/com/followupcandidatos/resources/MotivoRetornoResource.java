@@ -50,7 +50,7 @@ public class MotivoRetornoResource {
 
     @DeleteMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> deletarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno){
-        motivoRetornoService.deletarMotivoRetorno(idMotivoRetorno);
+        motivoRetornoService.deletarMotivoDeRetorno(idMotivoRetorno);
         return ResponseEntity.noContent().build();
     }
 

@@ -54,7 +54,7 @@ public class MotivoRetornoService {
     }
 
     @Transactional
-    public void deletarMotivoRetorno(Integer idMotivoRetorno) {
+    public void deletarMotivoDeRetorno(Integer idMotivoRetorno) {
         motivoRetornoRepository.delete(buscarMotivoDeRetornoPorId(idMotivoRetorno));
     }
 
