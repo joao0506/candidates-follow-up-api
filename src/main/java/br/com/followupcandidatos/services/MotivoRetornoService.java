@@ -20,7 +20,7 @@ public class MotivoRetornoService {
     private MotivoRetornoRepository motivoRetornoRepository;
 
     @Transactional
-    public MotivoRetorno inserirMotivoRetorno(MotivoRetorno motivoRetorno){
+    public MotivoRetorno salvarMotivoRetorno(MotivoRetorno motivoRetorno){
         return motivoRetornoRepository.save(motivoRetorno);
     }
 

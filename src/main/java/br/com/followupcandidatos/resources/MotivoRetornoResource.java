@@ -20,13 +20,22 @@ public class MotivoRetornoResource {
     private MotivoRetornoService motivoRetornoService;
 
     @PostMapping
-    public ResponseEntity<?> inserirMotivoRetorno(@Valid @RequestBody MotivoRetornoDTO motivoRetornoDTO){
-        MotivoRetorno motivoRetorno = motivoRetornoService.inserirMotivoRetorno(motivoRetornoService.fromDTO(motivoRetornoDTO));
+    public ResponseEntity<?> inserirMotivoDeRetorno(@Valid @RequestBody MotivoRetornoDTO motivoRetornoDTO){
+        MotivoRetorno motivoRetorno = motivoRetornoService.salvarMotivoRetorno(motivoRetornoService.fromDTO(motivoRetornoDTO));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(motivoRetorno.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
+    @PutMapping("/{idMotivoRetorno}")
+    public ResponseEntity<?> atualizarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno,
+                                                      @Valid @RequestBody MotivoRetornoDTO motivoRetornoDTO){
+        MotivoRetorno motivoRetorno = motivoRetornoService.fromDTO(motivoRetornoDTO);
+        motivoRetorno.setId(idMotivoRetorno);
+        motivoRetornoService.salvarMotivoRetorno(motivoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+    
     @GetMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
         return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));

@@ -47,7 +47,7 @@ public class MotivoRetornoResourceTest {
 
     @Test
     public void deveRetornarOkAoTestarPostMotivoDeRetorno() throws Exception{
-        Mockito.when(motivoRetornoService.inserirMotivoRetorno(Mockito.any())).thenReturn(gerarMockMotivoRetorno());
+        Mockito.when(motivoRetornoService.salvarMotivoRetorno(Mockito.any())).thenReturn(gerarMockMotivoRetorno());
 
         String motivoDeRetorno = "{\"descricao\": \"Remuneração\"}";
         MockHttpServletResponse response = realizarRequisicao(motivoDeRetorno);
