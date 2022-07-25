@@ -43,6 +43,11 @@ public class MotivoRetornoService {
         return motivosRetorno;
     }
 
+    @Transactional
+    public void desabilitarMotivoDeRetorno(Integer idMotivoRetorno) {
+        motivoRetornoRepository.disableMotivoRetorno(idMotivoRetorno);
+    }
+
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){
         return new MotivoRetorno(null, motivoRetornoDTO.getDescricao().trim(), true);
     }

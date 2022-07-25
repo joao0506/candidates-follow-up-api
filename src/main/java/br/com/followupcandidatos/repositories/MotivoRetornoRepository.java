@@ -4,6 +4,8 @@ import br.com.followupcandidatos.domain.MotivoRetorno;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -16,4 +18,8 @@ public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, In
     Page<MotivoRetorno> findAll(Pageable pageable);
 
     Page<MotivoRetorno> findByDescricao(String descricaoMotivoRetorno, Pageable pageable);
+
+    @Modifying
+    @Query(value = "UPDATE MotivoRetorno m SET m.isAtivo = false WHERE m.id = ?1")
+    void disableMotivoRetorno(Integer idMotivoRetorno);
 }

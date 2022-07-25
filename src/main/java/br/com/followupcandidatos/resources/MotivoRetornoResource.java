@@ -35,7 +35,13 @@ public class MotivoRetornoResource {
         motivoRetornoService.salvarMotivoRetorno(motivoRetorno);
         return ResponseEntity.noContent().build();
     }
-    
+
+    @PutMapping("/desabilitar/{idMotivoRetorno}")
+    public ResponseEntity<?> desabilitarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno){
+        motivoRetornoService.desabilitarMotivoDeRetorno(idMotivoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
         return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));
