@@ -54,13 +54,23 @@ public class MotivoRetornoService {
     }
 
     @Transactional
-    public void deletarMotivoDeRetorno(Integer idMotivoRetorno) {
-        motivoRetornoRepository.delete(buscarMotivoDeRetornoPorId(idMotivoRetorno));
+    public void desabilitarTodosMotivoDeRetorno(){
+        motivoRetornoRepository.disableAllMotivoRetorno();
     }
 
     @Transactional
     public void habilitarMotivoDeRetorno(Integer idMotivoRetorno) {
         motivoRetornoRepository.enableMotivoRetorno(idMotivoRetorno);
+    }
+
+    @Transactional
+    public void habilitarTodosMotivoDeRetorno(){
+        motivoRetornoRepository.enableAllMotivoRetorno();
+    }
+
+    @Transactional
+    public void deletarMotivoDeRetorno(Integer idMotivoRetorno) {
+        motivoRetornoRepository.delete(buscarMotivoDeRetornoPorId(idMotivoRetorno));
     }
 
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){

@@ -42,9 +42,21 @@ public class MotivoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/desabilitar")
+    public ResponseEntity<?> desabilitarTodosMotivoDeRetorno(){
+        motivoRetornoService.desabilitarTodosMotivoDeRetorno();
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/habilitar/{idMotivoRetorno}")
     public ResponseEntity<?> habilitarMotivoDeRetorno(@PathVariable Integer idMotivoRetorno){
         motivoRetornoService.habilitarMotivoDeRetorno(idMotivoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/habilitar")
+    public ResponseEntity<?> habilitarTodosMotivoDeRetorno(){
+        motivoRetornoService.habilitarTodosMotivoDeRetorno();
         return ResponseEntity.noContent().build();
     }
 

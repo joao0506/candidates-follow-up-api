@@ -27,7 +27,15 @@ public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, In
     void disableMotivoRetorno(Integer idMotivoRetorno);
 
     @Modifying
+    @Query(value = "UPDATE MotivoRetorno m SET m.isAtivo = false WHERE m.isAtivo IS TRUE")
+    void disableAllMotivoRetorno();
+
+    @Modifying
     @Query(value = "UPDATE MotivoRetorno m SET m.isAtivo = true WHERE m.id = ?1")
     void enableMotivoRetorno(Integer idMotivoRetorno);
+
+    @Modifying
+    @Query(value = "UPDATE MotivoRetorno m SET m.isAtivo = true WHERE m.isAtivo IS FALSE")
+    void enableAllMotivoRetorno();
 
 }
