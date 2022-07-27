@@ -17,7 +17,7 @@ public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, In
 
     Page<MotivoRetorno> findAll(Pageable pageable);
 
-    Page<MotivoRetorno> findByDescricao(String descricaoMotivoRetorno, Pageable pageable);
+    Page<MotivoRetorno> findByDescricaoContainingIgnoreCase(String descricaoMotivoRetorno, Pageable pageable);
 
     @Query(value = "SELECT m FROM MotivoRetorno m WHERE m.isAtivo IS FALSE")
     Page<MotivoRetorno> findAllMotivosDeRetornoDisabled(Pageable pageable);

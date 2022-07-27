@@ -39,7 +39,7 @@ public class MotivoRetornoService {
     @Transactional
     public Page<MotivoRetorno> buscarMotivoDeRetornoPorDescricao(String descricaoMotivoRetorno, Integer page, Integer linesPerPage) {
         Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return  motivoRetornoRepository.findByDescricao(descricaoMotivoRetorno, pageRequest);
+        return  motivoRetornoRepository.findByDescricaoContainingIgnoreCase(descricaoMotivoRetorno, pageRequest);
     }
 
     @Transactional
