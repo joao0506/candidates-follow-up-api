@@ -13,7 +13,7 @@ public class MotivoRetornoMocks {
 
     public static List<MotivoRetorno> gerarMockListMotivosRetorno(){
         return Arrays.asList(
-                new MotivoRetorno(1, "Remuneração", true),
+                new MotivoRetorno(1, "Remuneração", false),
                 new MotivoRetorno(2, "Idioma", true),
                 new MotivoRetorno(3, "Moeda de Pagamento", true),
                 new MotivoRetorno(4, "Modalidade de Trabalho", true),

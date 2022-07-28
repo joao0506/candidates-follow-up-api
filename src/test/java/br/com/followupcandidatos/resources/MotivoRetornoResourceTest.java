@@ -1,7 +1,10 @@
 package br.com.followupcandidatos.resources;
 
+import br.com.followupcandidatos.domain.MotivoRetorno;
 import br.com.followupcandidatos.services.MotivoRetornoService;
 import br.com.followupcandidatos.utils.MotivoRetornoMocks;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,12 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -156,6 +165,58 @@ public class MotivoRetornoResourceTest {
         when(motivoRetornoService.buscarMotivoDeRetornoPorId(1)).thenReturn(MotivoRetornoMocks.gerarMockMotivoRetorno());
 
         MockHttpServletResponse response = realizarRequisicaoGet("1");
-        Assert.assertEquals(response.getContentAsString(), "{\"id\":1,\"descricao\":\"RemuneraÃ§Ã£o\",\"isAtivo\":true}");
+        Assert.assertEquals(response.getContentAsString(StandardCharsets.UTF_8), "{\"id\":1,\"descricao\":\"Remuneração\",\"isAtivo\":true}");
     }
+
+    @Test
+    public void deveRetornarTodosMotivoDeRetorno() throws Exception{
+        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
+        when(motivoRetornoService.buscarMotivosDeRetorno(0,5)).thenReturn(motivosRetorno);
+
+        MockHttpServletResponse response = realizarRequisicaoGet("");
+        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+        Assert.assertEquals(
+                motivosDeRetorno.getJSONObject(1).get("descricao"),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1).getDescricao());
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    public void deveRetornarMotivosDeRetornoPorDescricao() throws Exception{
+        List<MotivoRetorno> motivosRetornoPaged = Arrays.asList(
+                                                        MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
+                                                        MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
+        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosRetornoPaged);
+        when(motivoRetornoService.buscarMotivoDeRetornoPorDescricao("mo",0,5))
+                .thenReturn(motivosRetorno);
+
+        MockHttpServletResponse response = realizarRequisicaoGet("descricao/mo");
+        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+
+        Assert.assertEquals(
+                motivosDeRetorno.getJSONObject(0).get("descricao"),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2).getDescricao());
+        Assert.assertEquals(
+                motivosDeRetorno.getJSONObject(1).get("descricao"),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3).getDescricao());
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    public void deveRetornarMotivosDeRetornoDesabilitados() throws Exception{
+        List<MotivoRetorno> motivosRetornoPaged = Arrays.asList(MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0));
+
+        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosRetornoPaged);
+        when(motivoRetornoService.buscarMotivosDeRetornoDesabilitados(0,5))
+                .thenReturn(motivosRetorno);
+
+        MockHttpServletResponse response = realizarRequisicaoGet("/desabilitados");
+        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+
+        Assert.assertEquals(
+                motivosDeRetorno.getJSONObject(0).get("descricao"),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0).getDescricao());
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
 }
