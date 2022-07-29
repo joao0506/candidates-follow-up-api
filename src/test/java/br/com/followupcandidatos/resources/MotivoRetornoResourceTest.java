@@ -219,4 +219,12 @@ public class MotivoRetornoResourceTest {
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
+    @Test
+    public void deveRetornarNoContentAoDeletarTodosMotivosDeRetorno() throws Exception {
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                .delete("/motivo-retorno/disabled")).andReturn().getResponse();
+
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+    }
+
 }

@@ -66,6 +66,12 @@ public class MotivoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/disabled")
+    public ResponseEntity<?> deletarTodosMotivosDeRetornoDisabled(){
+        motivoRetornoService.deletarTodosMotivosDeRetornoDesabilitados();
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idMotivoRetorno}")
     public ResponseEntity<?> buscarMotivoDeRetornoPorId(@PathVariable Integer idMotivoRetorno){
         return ResponseEntity.ok(motivoRetornoService.buscarMotivoDeRetornoPorId(idMotivoRetorno));

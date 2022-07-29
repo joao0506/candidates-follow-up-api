@@ -127,6 +127,12 @@ public class MotivoRetornoServiceTest {
     }
 
     @Test
+    public void deveDeletarTodosMotivosDeRetornoDesabilitados(){
+        motivoRetornoService.deletarTodosMotivosDeRetornoDesabilitados();
+        verify(motivoRetornoRepository, times(1)).deleteAllMotivoRetornoDisabled();
+    }
+
+    @Test
     public void deveConverterMotivoRetornoDTOEmMotivoRetorno(){
         MotivoRetornoDTO motivoRetornoDTO = new MotivoRetornoDTO();
         motivoRetornoDTO.setDescricao("Idioma");

@@ -73,6 +73,11 @@ public class MotivoRetornoService {
         motivoRetornoRepository.delete(buscarMotivoDeRetornoPorId(idMotivoRetorno));
     }
 
+    @Transactional
+    public void deletarTodosMotivosDeRetornoDesabilitados() {
+        motivoRetornoRepository.deleteAllMotivoRetornoDisabled();
+    }
+
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){
         return new MotivoRetorno(null, motivoRetornoDTO.getDescricao().trim(), true);
     }
