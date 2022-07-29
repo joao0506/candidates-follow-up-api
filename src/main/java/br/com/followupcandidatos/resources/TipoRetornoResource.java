@@ -35,5 +35,10 @@ public class TipoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{idTipoRetorno}")
+    public ResponseEntity<?> buscarTipoDeRetornoPorId(@PathVariable Integer idTipoRetorno){
+        return ResponseEntity.ok(tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno));
+    }
+
 
 }
