@@ -3,9 +3,11 @@ package br.com.followupcandidatos.resources;
 import br.com.followupcandidatos.domain.MotivoRetorno;
 import br.com.followupcandidatos.services.MotivoRetornoService;
 import br.com.followupcandidatos.utils.MotivoRetornoMocks;
+import br.com.followupcandidatos.utils.RealizarRequisicao;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -16,11 +18,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -42,130 +42,102 @@ public class MotivoRetornoResourceTest {
     @MockBean
     private MotivoRetornoService motivoRetornoService;
 
-    public MockHttpServletResponse realizarRequisicaoPost(String motivoRetornoDTO) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders
-                .post("/motivo-retorno/")
-                .accept(MediaType.APPLICATION_JSON)
-                .content(motivoRetornoDTO)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn()
-                .getResponse();
-    }
+    private RealizarRequisicao realizarRequisicao = new RealizarRequisicao();
 
-    public MockHttpServletResponse realizarRequisicaoPut(String motivoRetornoDTO, String path) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders
-                .put("/motivo-retorno/"+path)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(motivoRetornoDTO)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andReturn()
-                .getResponse();
-    }
+    private static String path = "/motivo-retorno/";
 
-    public MockHttpServletResponse realizarRequisicaoGet(String path) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders
-                        .get("/motivo-retorno/"+path)
-                        .param("page","0")
-                        .param("linesPerPage", "5")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn()
-                .getResponse();
-    }
+    private static MotivoRetorno motivoRetorno;
 
-    public MockHttpServletResponse realizarRequisicaoGetComPaginacao(String path, String page, String linesPerPage) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders
-                        .get("/motivo-retorno/"+path)
-                        .param("page",page)
-                        .param("linesPerPage", linesPerPage)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn()
-                .getResponse();
+    @Before
+    public void setUp(){
+        realizarRequisicao.setMockMvc(mockMvc);
+        motivoRetorno = MotivoRetornoMocks.gerarMockMotivoRetorno();
     }
 
     @Test
     public void deveRetornarOkAoTestarPostMotivoDeRetorno() throws Exception{
-        when(motivoRetornoService.salvarMotivoRetorno(Mockito.any())).thenReturn(MotivoRetornoMocks.gerarMockMotivoRetorno());
-
+        when(motivoRetornoService.salvarMotivoRetorno(Mockito.any())).thenReturn(motivoRetorno);
         String motivoDeRetorno = "{\"descricao\": \"Remuneração\"}";
-        MockHttpServletResponse response = realizarRequisicaoPost(motivoDeRetorno);
+
+        MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
+
         Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarErro400AoTestarPostComDescricaoNula() throws Exception{
         String motivoDeRetorno = "{\"descricao\": null}";
-        MockHttpServletResponse response = realizarRequisicaoPost(motivoDeRetorno);
+        MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarErro400AoTestarPostComDescricaoVazia() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"\"}";
-        MockHttpServletResponse response = realizarRequisicaoPost(motivoDeRetorno);
+        MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarErro400AoTestarPostComDescricaoComTamanhoMenorQueOValido() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"a\"}";
-        MockHttpServletResponse response = realizarRequisicaoPost(motivoDeRetorno);
+        MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarErro400AoTestarPostComDescricaoComTamanhoMaiorQueOValido() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}";
-        MockHttpServletResponse response = realizarRequisicaoPost(motivoDeRetorno);
+        MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoAtualizarMotivoDeRetorno() throws Exception {
-        when(motivoRetornoService.fromDTO(any())).thenReturn(MotivoRetornoMocks.gerarMockMotivoRetorno());
+        when(motivoRetornoService.fromDTO(any())).thenReturn(motivoRetorno);
 
         String motivoDeRetorno = "{\"descricao\": \"Teste Update\"}";
-        MockHttpServletResponse response = realizarRequisicaoPut(motivoDeRetorno,"1");
+        MockHttpServletResponse response = realizarRequisicao.Put(path + "1",motivoDeRetorno);
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoDesabilitarMotivoDeRetorno() throws Exception {
-        MockHttpServletResponse response = realizarRequisicaoPut("","desabilitar/1");
+        MockHttpServletResponse response = realizarRequisicao.Put(path + "desabilitar/1", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoDesabilitarTodosMotivoDeRetorno() throws Exception {
-        MockHttpServletResponse response = realizarRequisicaoPut("","desabilitar/");
+        MockHttpServletResponse response = realizarRequisicao.Put(path+"desabilitar/", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoHabilitarMotivoDeRetorno() throws Exception {
-        MockHttpServletResponse response = realizarRequisicaoPut("","habilitar/2");
+        MockHttpServletResponse response = realizarRequisicao.Put(path + "habilitar/2", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoHabilitarTodosMotivoDeRetorno() throws Exception {
-        MockHttpServletResponse response = realizarRequisicaoPut("","habilitar/");
+        MockHttpServletResponse response = realizarRequisicao.Put(path + "habilitar/", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarNoContentAoDeletarMotivoDeRetorno() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-                .delete("/motivo-retorno/"+2)).andReturn().getResponse();
-
+        MockHttpServletResponse response = realizarRequisicao.Delete(path+"2");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
     public void deveRetornarMotivoDeRetornoPorId() throws Exception{
-        when(motivoRetornoService.buscarMotivoDeRetornoPorId(1)).thenReturn(MotivoRetornoMocks.gerarMockMotivoRetorno());
+        when(motivoRetornoService.buscarMotivoDeRetornoPorId(1)).thenReturn(motivoRetorno);
 
-        MockHttpServletResponse response = realizarRequisicaoGet("1");
-        Assert.assertEquals(response.getContentAsString(StandardCharsets.UTF_8), "{\"id\":1,\"descricao\":\"Remuneração\",\"isAtivo\":true}");
+        MockHttpServletResponse response = realizarRequisicao.Get(path+"1");
+
+        Assert.assertEquals(response.getContentAsString(StandardCharsets.UTF_8), motivoRetorno.toString());
     }
 
     @Test
@@ -173,11 +145,13 @@ public class MotivoRetornoResourceTest {
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
         when(motivoRetornoService.buscarMotivosDeRetorno(0,5)).thenReturn(motivosRetorno);
 
-        MockHttpServletResponse response = realizarRequisicaoGet("");
+        MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"", "0", "5");
+
         JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
         Assert.assertEquals(
                 motivosDeRetorno.getJSONObject(1).get("descricao"),
                 MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1).getDescricao());
+
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
@@ -190,7 +164,7 @@ public class MotivoRetornoResourceTest {
         when(motivoRetornoService.buscarMotivoDeRetornoPorDescricao("mo",0,5))
                 .thenReturn(motivosRetorno);
 
-        MockHttpServletResponse response = realizarRequisicaoGet("descricao/mo");
+        MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"descricao/mo", "0", "5");
         JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
 
         Assert.assertEquals(
@@ -205,12 +179,11 @@ public class MotivoRetornoResourceTest {
     @Test
     public void deveRetornarMotivosDeRetornoDesabilitados() throws Exception{
         List<MotivoRetorno> motivosRetornoPaged = Arrays.asList(MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0));
-
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosRetornoPaged);
         when(motivoRetornoService.buscarMotivosDeRetornoDesabilitados(0,5))
                 .thenReturn(motivosRetorno);
 
-        MockHttpServletResponse response = realizarRequisicaoGet("/desabilitados");
+        MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"/desabilitados", "0", "5");
         JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
 
         Assert.assertEquals(
@@ -221,10 +194,8 @@ public class MotivoRetornoResourceTest {
 
     @Test
     public void deveRetornarNoContentAoDeletarTodosMotivosDeRetorno() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-                .delete("/motivo-retorno/disabled")).andReturn().getResponse();
+        MockHttpServletResponse response = realizarRequisicao.Delete(path+"/disabled");
 
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
-
 }

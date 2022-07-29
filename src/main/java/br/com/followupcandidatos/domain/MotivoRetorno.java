@@ -29,4 +29,13 @@ public class MotivoRetorno {
         this.descricao = descricao;
         this.isAtivo = isAtivo;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ",\"descricao\":\"" + descricao + "\"" +
+                ",\"isAtivo\":" + isAtivo +
+                '}';
+    }
 }
