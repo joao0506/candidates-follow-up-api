@@ -17,7 +17,7 @@ public class MotivoRetornoMocks {
                 new MotivoRetorno(2, "Idioma", true),
                 new MotivoRetorno(3, "Moeda de Pagamento", true),
                 new MotivoRetorno(4, "Modalidade de Trabalho", true),
-                new MotivoRetorno(5, "Sem Retorno", true)
+                new MotivoRetorno(5, "Sem Retorno", false)
         );
     }
 
