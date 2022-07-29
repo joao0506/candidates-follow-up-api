@@ -5,10 +5,7 @@ import br.com.followupcandidatos.domain.dtos.TipoRetornoDTO;
 import br.com.followupcandidatos.services.TipoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -28,5 +25,15 @@ public class TipoRetornoResource {
                 .buildAndExpand(tipoRetorno.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @PutMapping("/{idTipoRetorno}")
+    public ResponseEntity<?> atualizarTipoDeRetorno(@PathVariable Integer idTipoRetorno,
+            @Valid @RequestBody TipoRetornoDTO tipoRetornoDTO){
+        TipoRetorno tipoRetorno = tipoRetornoService.fromDTO(tipoRetornoDTO);
+        tipoRetorno.setId(idTipoRetorno);
+        tipoRetornoService.salvarTipoDeRetorno(tipoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
