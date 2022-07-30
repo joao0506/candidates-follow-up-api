@@ -28,8 +28,17 @@ public class TipoRetornoService {
     }
 
     @Transactional
+    public void desabilitarTodosTipoDeRetorno() {
+        tipoRetornoRepository.disableAllTipoRetorno();
+    }
+
+    @Transactional
     public void habilitarTipoDeRetorno(Integer idTipoRetorno) {
         tipoRetornoRepository.enableTipoRetorno(idTipoRetorno);
+    }
+    @Transactional
+    public void habilitarTodosTipoDeRetorno() {
+        tipoRetornoRepository.enableAllTipoRetorno();
     }
 
     @Transactional
@@ -41,5 +50,4 @@ public class TipoRetornoService {
     public TipoRetorno fromDTO(TipoRetornoDTO tipoRetornoDTO) {
         return new TipoRetorno(null, tipoRetornoDTO.getDescricao(), true);
     }
-
 }

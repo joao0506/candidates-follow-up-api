@@ -41,9 +41,21 @@ public class TipoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("desabilitar")
+    public ResponseEntity<?> desabilitarTodosTipoDeRetorno(){
+        tipoRetornoService.desabilitarTodosTipoDeRetorno();
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("habilitar/{idTipoRetorno}")
     public ResponseEntity<?> habilitarTipoDeRetorno(@PathVariable Integer idTipoRetorno){
         tipoRetornoService.habilitarTipoDeRetorno(idTipoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("habilitar")
+    public ResponseEntity<?> habilitarTodosTipoDeRetorno(){
+        tipoRetornoService.habilitarTodosTipoDeRetorno();
         return ResponseEntity.noContent().build();
     }
 
