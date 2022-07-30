@@ -35,10 +35,14 @@ public class TipoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("desabilitar/{idTipoRetorno}")
+    public ResponseEntity<?> desabilitarTipoDeRetorno(@PathVariable Integer idTipoRetorno){
+        tipoRetornoService.desabilitarTipoDeRetorno(idTipoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idTipoRetorno}")
     public ResponseEntity<?> buscarTipoDeRetornoPorId(@PathVariable Integer idTipoRetorno){
         return ResponseEntity.ok(tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno));
     }
-
-
 }

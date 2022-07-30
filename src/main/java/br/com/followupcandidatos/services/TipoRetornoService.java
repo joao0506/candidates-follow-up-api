@@ -23,6 +23,11 @@ public class TipoRetornoService {
     }
 
     @Transactional
+    public void desabilitarTipoDeRetorno(Integer idTipoRetorno) {
+        tipoRetornoRepository.disableTipoDeRetorno(idTipoRetorno);
+    }
+
+    @Transactional
     public TipoRetorno buscarTipoDeRetornoPorId(Integer idTipoRetorno) throws ObjectNotFoundException {
         Optional<TipoRetorno> tipoRetorno = tipoRetornoRepository.findById(idTipoRetorno);
         return tipoRetorno.orElseThrow(() -> new ObjectNotFoundException("Tipo De Retorno não encontrado!"));
