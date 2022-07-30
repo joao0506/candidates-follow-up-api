@@ -28,6 +28,11 @@ public class TipoRetornoService {
     }
 
     @Transactional
+    public void habilitarTipoDeRetorno(Integer idTipoRetorno) {
+        tipoRetornoRepository.enableTipoRetorno(idTipoRetorno);
+    }
+
+    @Transactional
     public TipoRetorno buscarTipoDeRetornoPorId(Integer idTipoRetorno) throws ObjectNotFoundException {
         Optional<TipoRetorno> tipoRetorno = tipoRetornoRepository.findById(idTipoRetorno);
         return tipoRetorno.orElseThrow(() -> new ObjectNotFoundException("Tipo De Retorno não encontrado!"));
@@ -36,4 +41,5 @@ public class TipoRetornoService {
     public TipoRetorno fromDTO(TipoRetornoDTO tipoRetornoDTO) {
         return new TipoRetorno(null, tipoRetornoDTO.getDescricao(), true);
     }
+
 }

@@ -13,5 +13,7 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
     @Query("UPDATE TipoRetorno t SET t.isAtivo = false WHERE t.id = ?1")
     void disableTipoDeRetorno(Integer idTipoRetorno);
 
-
+    @Modifying
+    @Query("UPDATE TipoRetorno t SET t.isAtivo = true WHERE t.id = ?1")
+    void enableTipoRetorno(Integer idTipoRetorno);
 }

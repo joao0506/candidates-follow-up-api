@@ -41,6 +41,12 @@ public class TipoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("habilitar/{idTipoRetorno}")
+    public ResponseEntity<?> habilitarTipoDeRetorno(@PathVariable Integer idTipoRetorno){
+        tipoRetornoService.habilitarTipoDeRetorno(idTipoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idTipoRetorno}")
     public ResponseEntity<?> buscarTipoDeRetornoPorId(@PathVariable Integer idTipoRetorno){
         return ResponseEntity.ok(tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno));
