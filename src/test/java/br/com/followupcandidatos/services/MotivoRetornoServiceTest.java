@@ -55,7 +55,7 @@ public class MotivoRetornoServiceTest {
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
         when(motivoRetornoRepository.findAll(PageRequest.of(0, 5))).thenReturn(motivosRetorno);
 
-        Page<MotivoRetorno> motivosRetornoPage = motivoRetornoService.buscarMotivosDeRetorno(0, 5);
+        Page<MotivoRetorno> motivosRetornoPage = motivoRetornoService.buscarMotivosDeRetornoHabilitados(0, 5);
         Assert.assertEquals(motivosRetornoPage.getContent().size(), 5L);
         Assert.assertEquals(motivosRetornoPage.getContent().get(0).getDescricao(), "Remuneração");
     }

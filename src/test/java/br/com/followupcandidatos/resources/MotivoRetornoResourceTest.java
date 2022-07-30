@@ -141,9 +141,9 @@ public class MotivoRetornoResourceTest {
     }
 
     @Test
-    public void deveRetornarTodosMotivoDeRetorno() throws Exception{
+    public void deveRetornarTodosMotivoDeRetornoHabilitados() throws Exception{
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
-        when(motivoRetornoService.buscarMotivosDeRetorno(0,5)).thenReturn(motivosRetorno);
+        when(motivoRetornoService.buscarMotivosDeRetornoHabilitados(0,5)).thenReturn(motivosRetorno);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"", "0", "5");
 

@@ -78,9 +78,9 @@ public class MotivoRetornoResource {
     }
 
     @GetMapping
-    public ResponseEntity<?> buscarMotivosDeRetorno(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> buscarMotivosDeRetornoHabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
-        Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivosDeRetorno(page, linesPerPage);
+        Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivosDeRetornoHabilitados(page, linesPerPage);
         return ResponseEntity.ok(motivosRetorno);
     }
 

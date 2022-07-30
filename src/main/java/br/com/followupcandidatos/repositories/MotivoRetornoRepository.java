@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MotivoRetornoRepository extends JpaRepository<MotivoRetorno, Integer> {
 
-    Page<MotivoRetorno> findAll(Pageable pageable);
+    Page<MotivoRetorno> findAllByIsAtivoTrue(Pageable pageable);
 
     Page<MotivoRetorno> findByDescricaoContainingIgnoreCase(String descricaoMotivoRetorno, Pageable pageable);
 
