@@ -4,6 +4,7 @@ import br.com.followupcandidatos.domain.TipoRetorno;
 import br.com.followupcandidatos.domain.dtos.TipoRetornoDTO;
 import br.com.followupcandidatos.services.TipoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -75,4 +76,12 @@ public class TipoRetornoResource {
     public ResponseEntity<?> buscarTipoDeRetornoPorId(@PathVariable Integer idTipoRetorno){
         return ResponseEntity.ok(tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno));
     }
+
+    @GetMapping
+    public ResponseEntity<?> buscarTodosTiposDeRetornoHabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                  @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
+        Page<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados(page, linesPerPage);
+        return ResponseEntity.ok(tiposRetorno);
+    }
+
 }

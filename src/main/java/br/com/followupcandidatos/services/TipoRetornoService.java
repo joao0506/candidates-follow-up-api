@@ -5,6 +5,9 @@ import br.com.followupcandidatos.domain.dtos.TipoRetornoDTO;
 import br.com.followupcandidatos.exceptions.ObjectNotFoundException;
 import br.com.followupcandidatos.repositories.TipoRetornoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -51,10 +54,14 @@ public class TipoRetornoService {
         tipoRetornoRepository.deleteAllByIsAtivoFalse();
     }
 
-    @Transactional
     public TipoRetorno buscarTipoDeRetornoPorId(Integer idTipoRetorno) throws ObjectNotFoundException {
         Optional<TipoRetorno> tipoRetorno = tipoRetornoRepository.findById(idTipoRetorno);
         return tipoRetorno.orElseThrow(() -> new ObjectNotFoundException("Tipo De Retorno não encontrado!"));
+    }
+
+    public Page<TipoRetorno> buscarTodosTiposDeRetornoHabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageable = PageRequest.of(page, linesPerPage);
+        return tipoRetornoRepository.findAllByIsAtivoTrue(pageable);
     }
 
     public TipoRetorno fromDTO(TipoRetornoDTO tipoRetornoDTO) {

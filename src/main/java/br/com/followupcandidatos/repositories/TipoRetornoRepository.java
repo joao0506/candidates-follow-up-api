@@ -1,6 +1,8 @@
 package br.com.followupcandidatos.repositories;
 
 import br.com.followupcandidatos.domain.TipoRetorno;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Integer> {
+
+    Page<TipoRetorno> findAllByIsAtivoTrue(Pageable pageable);
 
     @Modifying
     @Query("UPDATE TipoRetorno t SET t.isAtivo = false WHERE t.id = ?1")
@@ -28,5 +32,4 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
     @Modifying
     @Query("DELETE FROM TipoRetorno t WHERE t.isAtivo IS FALSE")
     void deleteAllByIsAtivoFalse();
-
 }
