@@ -13,6 +13,8 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
 
     Page<TipoRetorno> findAllByIsAtivoTrue(Pageable pageable);
 
+    Page<TipoRetorno> findAllByIsAtivoFalse(Pageable pageable);
+
     Page<TipoRetorno> findByDescricaoContainingIgnoreCase(String descricao, Pageable pageable);
 
     @Modifying

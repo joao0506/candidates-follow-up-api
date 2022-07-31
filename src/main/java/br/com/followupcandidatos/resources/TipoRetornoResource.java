@@ -93,4 +93,11 @@ public class TipoRetornoResource {
         return ResponseEntity.ok(tiposRetorno);
     }
 
+    @GetMapping("/desabilitados")
+    public ResponseEntity<?> buscarTodosTiposDeRetornoDesabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                    @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
+        Page<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTodosTiposDeRetornoDesabilitados(page, linesPerPage);
+        return ResponseEntity.ok(tiposRetorno);
+    }
+
 }

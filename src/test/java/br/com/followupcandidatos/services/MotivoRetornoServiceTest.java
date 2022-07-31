@@ -85,7 +85,7 @@ public class MotivoRetornoServiceTest {
                 MotivoRetornoMocks.gerarMockListMotivosRetorno().get(4));
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosDeRetorno);
 
-        when(motivoRetornoRepository.findAllMotivosDeRetornoDisabled(
+        when(motivoRetornoRepository.findAllByIsAtivoFalse(
                 PageRequest.of(0, 5))).thenReturn(motivosRetorno);
 
         Page<MotivoRetorno> motivosRetornoDesabilitados = motivoRetornoService.buscarMotivosDeRetornoDesabilitados(0, 5);

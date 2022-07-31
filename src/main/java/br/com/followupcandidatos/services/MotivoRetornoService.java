@@ -25,30 +25,6 @@ public class MotivoRetornoService {
     }
 
     @Transactional
-    public MotivoRetorno buscarMotivoDeRetornoPorId(Integer idMotivoRetorno)  {
-        Optional<MotivoRetorno> motivoRetorno = motivoRetornoRepository.findById(idMotivoRetorno);
-        return motivoRetorno.orElseThrow(() -> new ObjectNotFoundException("Motivo de Retorno não encontrado!"));
-    }
-
-    @Transactional
-    public Page<MotivoRetorno> buscarMotivosDeRetornoHabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return motivoRetornoRepository.findAllByIsAtivoTrue(pageRequest);
-    }
-
-    @Transactional
-    public Page<MotivoRetorno> buscarMotivoDeRetornoPorDescricao(String descricaoMotivoRetorno, Integer page, Integer linesPerPage) {
-        Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return  motivoRetornoRepository.findByDescricaoContainingIgnoreCase(descricaoMotivoRetorno, pageRequest);
-    }
-
-    @Transactional
-    public Page<MotivoRetorno> buscarMotivosDeRetornoDesabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return motivoRetornoRepository.findAllMotivosDeRetornoDisabled(pageRequest);
-    }
-
-    @Transactional
     public void desabilitarMotivoDeRetorno(Integer idMotivoRetorno) {
         motivoRetornoRepository.disableMotivoRetorno(idMotivoRetorno);
     }
@@ -76,6 +52,26 @@ public class MotivoRetornoService {
     @Transactional
     public void deletarTodosMotivosDeRetornoDesabilitados() {
         motivoRetornoRepository.deleteAllMotivoRetornoDisabled();
+    }
+
+    public MotivoRetorno buscarMotivoDeRetornoPorId(Integer idMotivoRetorno)  {
+        Optional<MotivoRetorno> motivoRetorno = motivoRetornoRepository.findById(idMotivoRetorno);
+        return motivoRetorno.orElseThrow(() -> new ObjectNotFoundException("Motivo de Retorno não encontrado!"));
+    }
+
+    public Page<MotivoRetorno> buscarMotivosDeRetornoHabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return motivoRetornoRepository.findAllByIsAtivoTrue(pageRequest);
+    }
+
+    public Page<MotivoRetorno> buscarMotivoDeRetornoPorDescricao(String descricaoMotivoRetorno, Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return  motivoRetornoRepository.findByDescricaoContainingIgnoreCase(descricaoMotivoRetorno, pageRequest);
+    }
+
+    public Page<MotivoRetorno> buscarMotivosDeRetornoDesabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return motivoRetornoRepository.findAllByIsAtivoFalse(pageRequest);
     }
 
     public MotivoRetorno fromDTO(MotivoRetornoDTO motivoRetornoDTO){
