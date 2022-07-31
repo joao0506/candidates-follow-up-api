@@ -59,6 +59,18 @@ public class TipoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{idTipoRetorno}")
+    public ResponseEntity<?> deletarTipoDeRetorno(@PathVariable Integer idTipoRetorno){
+        tipoRetornoService.deletarTipoDeRetorno(idTipoRetorno);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/desabilitados")
+    public ResponseEntity<?> deletarTiposDeRetornoDesabilitados(){
+        tipoRetornoService.deletarTiposDeRetornoDesabilitados();
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{idTipoRetorno}")
     public ResponseEntity<?> buscarTipoDeRetornoPorId(@PathVariable Integer idTipoRetorno){
         return ResponseEntity.ok(tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno));

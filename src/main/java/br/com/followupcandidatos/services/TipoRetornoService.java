@@ -42,6 +42,16 @@ public class TipoRetornoService {
     }
 
     @Transactional
+    public void deletarTipoDeRetorno(Integer idTipoRetorno) {
+        tipoRetornoRepository.delete(buscarTipoDeRetornoPorId(idTipoRetorno));
+    }
+
+    @Transactional
+    public void deletarTiposDeRetornoDesabilitados() {
+        tipoRetornoRepository.deleteAllByIsAtivoFalse();
+    }
+
+    @Transactional
     public TipoRetorno buscarTipoDeRetornoPorId(Integer idTipoRetorno) throws ObjectNotFoundException {
         Optional<TipoRetorno> tipoRetorno = tipoRetornoRepository.findById(idTipoRetorno);
         return tipoRetorno.orElseThrow(() -> new ObjectNotFoundException("Tipo De Retorno não encontrado!"));

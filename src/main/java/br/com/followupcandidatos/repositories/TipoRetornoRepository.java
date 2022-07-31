@@ -24,4 +24,9 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
     @Modifying
     @Query("UPDATE TipoRetorno t SET t.isAtivo = true WHERE t.isAtivo IS FALSE")
     void enableAllTipoRetorno();
+
+    @Modifying
+    @Query("DELETE FROM TipoRetorno t WHERE t.isAtivo IS FALSE")
+    void deleteAllByIsAtivoFalse();
+
 }
