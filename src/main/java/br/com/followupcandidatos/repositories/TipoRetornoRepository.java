@@ -13,6 +13,8 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
 
     Page<TipoRetorno> findAllByIsAtivoTrue(Pageable pageable);
 
+    Page<TipoRetorno> findByDescricaoContainingIgnoreCase(String descricao, Pageable pageable);
+
     @Modifying
     @Query("UPDATE TipoRetorno t SET t.isAtivo = false WHERE t.id = ?1")
     void disableTipoDeRetorno(Integer idTipoRetorno);
@@ -32,4 +34,5 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
     @Modifying
     @Query("DELETE FROM TipoRetorno t WHERE t.isAtivo IS FALSE")
     void deleteAllByIsAtivoFalse();
+
 }

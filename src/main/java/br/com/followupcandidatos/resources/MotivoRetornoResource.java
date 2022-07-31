@@ -84,10 +84,11 @@ public class MotivoRetornoResource {
         return ResponseEntity.ok(motivosRetorno);
     }
 
-    @GetMapping("/descricao/{descricaoMotivoRetorno}")
-    public ResponseEntity<?> buscarMotivoDeRetornoPorDescricao(@PathVariable String descricaoMotivoRetorno,
+    @GetMapping("/descricao")
+    public ResponseEntity<?> buscarMotivoDeRetornoPorDescricao(@RequestParam(value = "descricao", defaultValue = "") String descricaoMotivoRetorno,
                                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
+        if (descricaoMotivoRetorno.trim().isEmpty()) return buscarMotivosDeRetornoHabilitados(page, linesPerPage);
         Page<MotivoRetorno> motivosRetorno = motivoRetornoService.buscarMotivoDeRetornoPorDescricao(descricaoMotivoRetorno, page, linesPerPage);
         return ResponseEntity.ok(motivosRetorno);
     }
