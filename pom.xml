@@ -11,8 +11,8 @@
 	<groupId>br.com</groupId>
 	<artifactId>follow-up-candidatos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>follow-up-candidatos</name>
-	<description>Follow Up de Candidatos</description>
+	<name>candidates-follow-up</name>
+	<description>Candidates Follow Up</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
