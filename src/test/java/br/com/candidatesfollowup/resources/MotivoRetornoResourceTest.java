@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -51,10 +50,19 @@ public class MotivoRetornoResourceTest {
 
     private static MotivoRetorno motivoRetorno;
 
+    private static List<MotivoRetorno> motivosRetornoHabilitados, motivosRetornoDesabilitados;
+
     @Before
     public void setUp(){
         realizarRequisicao.setMockMvc(mockMvc);
         motivoRetorno = MotivoRetornoMocks.gerarMockMotivoRetorno();
+        motivosRetornoHabilitados = Arrays.asList(
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
+        motivosRetornoDesabilitados = Arrays.asList(
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0),
+                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(4));
     }
 
     /*
@@ -191,21 +199,22 @@ public class MotivoRetornoResourceTest {
     * */
     @Test
     public void deveRetornarTodosMotivosDeRetornoHabilitados() throws Exception{
-        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
-        when(motivoRetornoService.buscarMotivosDeRetornoHabilitados(0,5)).thenReturn(motivosRetorno);
+        when(motivoRetornoService.buscarMotivosDeRetornoHabilitados(0,5)).thenReturn(new PageImpl<>(motivosRetornoHabilitados));
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"", "0", "5");
 
         JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+
         Assert.assertEquals(
                 motivosDeRetorno.getJSONObject(1).get("descricao"),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1).getDescricao());
+                motivosRetornoHabilitados.get(1).getDescricao());
         Assert.assertTrue(motivosDeRetorno.getJSONObject(1).getBoolean(("isAtivo")));
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     /*
-    * Dada a chamada abaixo, deve retornar todos os motivos de retorno contendo na descrição os caracteres informados na requisição.
+    * Dado uma descrição com os caracteres abaixo, deve ser listado os motivos de retorno contendo
+    * os caracteres presentes na requisição.
     * */
     @Test
     public void deveRetornarMotivosDeRetornoPorDescricao() throws Exception{
@@ -230,14 +239,31 @@ public class MotivoRetornoResourceTest {
     }
 
     /*
+     * Dado uma descrição vazia, deve ser chamado o método para listar todos os motivos
+     * de retorno habilitados.
+     * */
+    @Test
+    public void deveRetornarMotivosHabilitadosQuandoDescricaoForVazia() throws Exception{
+        when(motivoRetornoService.buscarMotivosDeRetornoHabilitados(0,5)).thenReturn(new PageImpl<>(motivosRetornoHabilitados));
+
+        MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"descricao", "",
+                "0", "5");
+
+        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+
+        Assert.assertEquals(motivosDeRetorno.length(), 3L);
+        Assert.assertEquals(motivosDeRetorno.getJSONObject(0).getString("descricao"), motivosRetornoHabilitados.get(0).getDescricao());
+        Assert.assertTrue(motivosDeRetorno.getJSONObject(2).getBoolean("isAtivo"));
+        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    /*
     * Dada a requisição abaixo, deve retornar todos os motivos de retorno desabilitados.
     * */
     @Test
     public void deveRetornarMotivosDeRetornoDesabilitados() throws Exception{
-        List<MotivoRetorno> motivosRetornoPaged = Arrays.asList(MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0));
-        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosRetornoPaged);
         when(motivoRetornoService.buscarMotivosDeRetornoDesabilitados(0,5))
-                .thenReturn(motivosRetorno);
+                .thenReturn(new PageImpl<>(motivosRetornoDesabilitados));
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"/desabilitados", "0", "5");
         JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
