@@ -1,14 +1,13 @@
-package br.com.followupcandidatos.services;
+package br.com.candidatesfollowup.services;
 
-import br.com.followupcandidatos.domain.TipoRetorno;
-import br.com.followupcandidatos.domain.dtos.TipoRetornoDTO;
-import br.com.followupcandidatos.exceptions.ObjectNotFoundException;
-import br.com.followupcandidatos.repositories.TipoRetornoRepository;
+import br.com.candidatesfollowup.domain.TipoRetorno;
+import br.com.candidatesfollowup.domain.dtos.TipoRetornoDTO;
+import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
+import br.com.candidatesfollowup.repositories.TipoRetornoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

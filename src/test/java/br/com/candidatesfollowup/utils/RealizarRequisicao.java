@@ -1,4 +1,4 @@
-package br.com.followupcandidatos.utils;
+package br.com.candidatesfollowup.utils;
 
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -24,6 +24,18 @@ public class RealizarRequisicao {
     public MockHttpServletResponse GetPaginado(String path, String page, String linesPerPage) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders
                         .get(path)
+                        .param("page", page)
+                        .param("linesPerPage", linesPerPage)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+    }
+
+    public MockHttpServletResponse GetPaginadoByDescricao(String path, String descricao,
+                                                          String page, String linesPerPage) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders
+                        .get(path)
+                        .param("descricao", descricao)
                         .param("page", page)
                         .param("linesPerPage", linesPerPage)
                         .contentType(MediaType.APPLICATION_JSON))

@@ -1,6 +1,6 @@
-package br.com.followupcandidatos.utils;
+package br.com.candidatesfollowup.utils;
 
-import br.com.followupcandidatos.domain.MotivoRetorno;
+import br.com.candidatesfollowup.domain.MotivoRetorno;
 
 import java.util.Arrays;
 import java.util.List;

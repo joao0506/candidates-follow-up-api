@@ -1,10 +1,10 @@
-package br.com.followupcandidatos.services;
+package br.com.candidatesfollowup.services;
 
-import br.com.followupcandidatos.domain.MotivoRetorno;
-import br.com.followupcandidatos.domain.dtos.MotivoRetornoDTO;
-import br.com.followupcandidatos.exceptions.ObjectNotFoundException;
-import br.com.followupcandidatos.repositories.MotivoRetornoRepository;
-import br.com.followupcandidatos.utils.MotivoRetornoMocks;
+import br.com.candidatesfollowup.domain.MotivoRetorno;
+import br.com.candidatesfollowup.domain.dtos.MotivoRetornoDTO;
+import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
+import br.com.candidatesfollowup.repositories.MotivoRetornoRepository;
+import br.com.candidatesfollowup.utils.MotivoRetornoMocks;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,9 +51,9 @@ public class MotivoRetornoServiceTest {
     }
 
     @Test
-    public void deveRetornarTodosMotivosDeRetorno(){
+    public void deveRetornarTodosMotivosDeRetornoHabilitados(){
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(MotivoRetornoMocks.gerarMockListMotivosRetorno());
-        when(motivoRetornoRepository.findAll(PageRequest.of(0, 5))).thenReturn(motivosRetorno);
+        when(motivoRetornoRepository.findAllByIsAtivoTrue(PageRequest.of(0, 5))).thenReturn(motivosRetorno);
 
         Page<MotivoRetorno> motivosRetornoPage = motivoRetornoService.buscarMotivosDeRetornoHabilitados(0, 5);
         Assert.assertEquals(motivosRetornoPage.getContent().size(), 5L);

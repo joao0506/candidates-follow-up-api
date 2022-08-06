@@ -1,8 +1,8 @@
-package br.com.followupcandidatos.resources;
+package br.com.candidatesfollowup.resources;
 
-import br.com.followupcandidatos.domain.MotivoRetorno;
-import br.com.followupcandidatos.domain.dtos.MotivoRetornoDTO;
-import br.com.followupcandidatos.services.MotivoRetornoService;
+import br.com.candidatesfollowup.domain.MotivoRetorno;
+import br.com.candidatesfollowup.domain.dtos.MotivoRetornoDTO;
+import br.com.candidatesfollowup.services.MotivoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

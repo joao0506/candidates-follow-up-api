@@ -1,6 +1,6 @@
-package br.com.followupcandidatos.repositories;
+package br.com.candidatesfollowup.repositories;
 
-import br.com.followupcandidatos.domain.TipoRetorno;
+import br.com.candidatesfollowup.domain.TipoRetorno;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

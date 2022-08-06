@@ -1,9 +1,9 @@
-package br.com.followupcandidatos.services;
+package br.com.candidatesfollowup.services;
 
-import br.com.followupcandidatos.domain.MotivoRetorno;
-import br.com.followupcandidatos.domain.dtos.MotivoRetornoDTO;
-import br.com.followupcandidatos.exceptions.ObjectNotFoundException;
-import br.com.followupcandidatos.repositories.MotivoRetornoRepository;
+import br.com.candidatesfollowup.domain.MotivoRetorno;
+import br.com.candidatesfollowup.domain.dtos.MotivoRetornoDTO;
+import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
+import br.com.candidatesfollowup.repositories.MotivoRetornoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

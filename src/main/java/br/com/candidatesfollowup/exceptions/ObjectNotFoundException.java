@@ -1,4 +1,4 @@
-package br.com.followupcandidatos.exceptions;
+package br.com.candidatesfollowup.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

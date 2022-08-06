@@ -1,4 +1,4 @@
-package br.com.followupcandidatos.domain;
+package br.com.candidatesfollowup.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

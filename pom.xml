@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>follow-up-candidatos</artifactId>
+	<artifactId>candidates-follow-up</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>candidates-follow-up</name>
 	<description>Candidates Follow Up</description>
