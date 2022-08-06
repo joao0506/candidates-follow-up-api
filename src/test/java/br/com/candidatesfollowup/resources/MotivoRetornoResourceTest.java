@@ -66,10 +66,10 @@ public class MotivoRetornoResourceTest {
     }
 
     /*
-    * Dado um Motivo de Retorno válido, o status http deve ser 200 OK ao inserir com sucesso.
+    * Dado um Motivo de Retorno válido, o status http deve ser 201 CREATED ao inserir com sucesso.
     * */
     @Test
-    public void deveRetornar200OkAoInserirMotivoDeRetorno() throws Exception{
+    public void deveRetornar201cREATEDAoInserirMotivoDeRetorno() throws Exception{
         when(motivoRetornoService.salvarMotivoRetorno(Mockito.any())).thenReturn(motivoRetorno);
         String motivoDeRetorno = "{\"descricao\": \"Remuneração\"}";
 
@@ -117,8 +117,10 @@ public class MotivoRetornoResourceTest {
      * */
     @Test
     public void deveRetornarErro400AoInserirMotivoDeRetornoComDescricaoMaiorQueOValido() throws Exception{
-        String motivoDeRetorno = "{\"descricao\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}";
+        String motivoDeRetorno = "{\"descricao\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}";
+
         MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
+
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
@@ -243,7 +245,7 @@ public class MotivoRetornoResourceTest {
      * de retorno habilitados.
      * */
     @Test
-    public void deveRetornarMotivosHabilitadosQuandoDescricaoForVazia() throws Exception{
+    public void deveRetornarMotivosHabilitadosQuandoDescricaoEhVazia() throws Exception{
         when(motivoRetornoService.buscarMotivosDeRetornoHabilitados(0,5)).thenReturn(new PageImpl<>(motivosRetornoHabilitados));
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"descricao", "",
