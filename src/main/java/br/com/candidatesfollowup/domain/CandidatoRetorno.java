@@ -36,11 +36,13 @@ public class CandidatoRetorno {
     @ManyToOne
     private TipoRetorno tipoRetorno;
 
-    public CandidatoRetorno(Integer id, String nomeCandidato, LocalDate dataRetorno, Boolean isAtivo, Boolean isCandidatoContatado) {
+    public CandidatoRetorno(Integer id, String nomeCandidato, LocalDate dataRetorno, Boolean isAtivo, Boolean isCandidatoContatado, List<MotivoRetorno> motivoRetorno, TipoRetorno tipoRetorno) {
         this.id = id;
         this.nomeCandidato = nomeCandidato;
         this.dataRetorno = dataRetorno;
         this.isAtivo = isAtivo;
         this.isCandidatoContatado = isCandidatoContatado;
+        this.motivoRetorno = motivoRetorno;
+        this.tipoRetorno = tipoRetorno;
     }
 }
