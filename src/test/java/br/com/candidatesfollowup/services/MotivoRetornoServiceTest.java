@@ -6,6 +6,7 @@ import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
 import br.com.candidatesfollowup.repositories.MotivoRetornoRepository;
 import br.com.candidatesfollowup.utils.MotivoRetornoMocks;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,14 +31,27 @@ public class MotivoRetornoServiceTest {
     @Mock
     MotivoRetornoRepository motivoRetornoRepository;
 
+    private static MotivoRetorno motivoRetorno = new MotivoRetorno();
+
+    private static List<MotivoRetorno> motivosRetornoHabilitados, motivosRetornoDesabilitados;
+
+    @Before
+    public void setUp(){
+        motivoRetorno = MotivoRetornoMocks.gerarMockMotivoRetorno();
+        motivosRetornoHabilitados = MotivoRetornoMocks.gerarMockMotivoRetornoListHabilitados();
+        motivosRetornoDesabilitados = MotivoRetornoMocks.gerarMockMotivoRetornoListDesabilitados();
+    }
+
     /*
     * Dado um motivo de retorno válido, deve inserir o motivo de retorno com sucesso.
     * */
     @Test
     public void deveSalvarMotivoDeRetorno(){
-        when(motivoRetornoRepository.save(any())).thenReturn(MotivoRetornoMocks.gerarMockMotivoRetorno());
+        when(motivoRetornoRepository.save(any())).thenReturn(motivoRetorno);
+
         MotivoRetorno motivoRetorno = motivoRetornoService.salvarMotivoRetorno(MotivoRetornoMocks.gerarMockMotivoRetorno());
-        Assert.assertEquals(motivoRetorno.getId(), MotivoRetornoMocks.gerarMockMotivoRetorno().getId());
+
+        Assert.assertEquals(motivoRetorno.getId(), motivoRetorno.getId());
     }
 
     /*
@@ -45,9 +59,11 @@ public class MotivoRetornoServiceTest {
     * */
     @Test
     public void deveRetornarMotivoDeRetornoPorId(){
-        Optional<MotivoRetorno> motivoRetornoOptional = Optional.of(MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
-        when(motivoRetornoRepository.findById(4)).thenReturn(motivoRetornoOptional);
-        MotivoRetorno motivoRetorno = motivoRetornoService.buscarMotivoDeRetornoPorId(4);
+        when(motivoRetornoRepository.findById(2)).thenReturn(Optional.of(motivosRetornoHabilitados.get(2)));
+
+        MotivoRetorno motivoRetorno = motivoRetornoService.buscarMotivoDeRetornoPorId(2);
+
+        Assert.assertEquals(motivosRetornoHabilitados.get(2).getId(), motivoRetorno.getId());
         Assert.assertEquals(motivoRetorno.getDescricao(), "Modalidade de Trabalho");
     }
 
@@ -64,12 +80,7 @@ public class MotivoRetornoServiceTest {
     * */
     @Test
     public void deveRetornarTodosMotivosDeRetornoHabilitados(){
-        List<MotivoRetorno> motivosDeRetornoList = Arrays.asList(
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
-        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosDeRetornoList);
-        when(motivoRetornoRepository.findAllByIsAtivoTrue(PageRequest.of(0, 5))).thenReturn(motivosRetorno);
+        when(motivoRetornoRepository.findAllByIsAtivoTrue(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(motivosRetornoHabilitados));
 
         Page<MotivoRetorno> motivosRetornoPage = motivoRetornoService.buscarMotivosDeRetornoHabilitados(0, 5);
 
@@ -83,10 +94,10 @@ public class MotivoRetornoServiceTest {
     * */
     @Test
     public void deveRetornarMotivoDeRetornoQuandoBuscarPorDescricao() {
-        List<MotivoRetorno> motivosDeRetorno = Arrays.asList(
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
-        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosDeRetorno);
+        List<MotivoRetorno> motivosDeRetornoList = Arrays.asList(
+                                                    motivosRetornoHabilitados.get(1),
+                                                    motivosRetornoHabilitados.get(2));
+        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosDeRetornoList);
 
         when(motivoRetornoRepository.findByDescricaoContainingIgnoreCase("mo",
                 PageRequest.of(0, 5))).thenReturn(motivosRetorno);
@@ -96,7 +107,7 @@ public class MotivoRetornoServiceTest {
 
         Assert.assertEquals(motivosRetornoPorDescricao.getContent().size(), 2L);
         Assert.assertEquals(motivosRetornoPorDescricao.getContent().get(0).getDescricao(), "Moeda de Pagamento");
-        Assert.assertEquals(motivosRetornoPorDescricao.getContent().get(1).getId().toString(), "4");
+        Assert.assertEquals(motivosRetornoPorDescricao.getContent().get(1).getId().toString(), "3");
     }
 
     /*
@@ -104,13 +115,8 @@ public class MotivoRetornoServiceTest {
      * */
     @Test
     public void deveRetornarMotivoDeRetornoDesabilitados() {
-        List<MotivoRetorno> motivosDeRetorno = Arrays.asList(
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(4));
-        Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosDeRetorno);
-
         when(motivoRetornoRepository.findAllByIsAtivoFalse(
-                PageRequest.of(0, 5))).thenReturn(motivosRetorno);
+                PageRequest.of(0, 5))).thenReturn(new PageImpl<>(motivosRetornoDesabilitados));
 
         Page<MotivoRetorno> motivosRetornoDesabilitados = motivoRetornoService.buscarMotivosDeRetornoDesabilitados(0, 5);
 
@@ -164,7 +170,7 @@ public class MotivoRetornoServiceTest {
      * */
     @Test
     public void deveDeletarMotivoDeRetorno(){
-        when(motivoRetornoRepository.findById(1)).thenReturn(Optional.of(MotivoRetornoMocks.gerarMockMotivoRetorno()));
+        when(motivoRetornoRepository.findById(1)).thenReturn(Optional.of(motivoRetorno));
         motivoRetornoService.deletarMotivoDeRetorno(1);
         verify(motivoRetornoRepository, times(1)).delete(any());
     }
@@ -187,6 +193,7 @@ public class MotivoRetornoServiceTest {
         motivoRetornoDTO.setDescricao("Idioma");
 
         MotivoRetorno motivoRetorno = motivoRetornoService.fromDTO(motivoRetornoDTO);
+        Assert.assertNull(motivoRetorno.getId());
         Assert.assertTrue(motivoRetorno.getIsAtivo());
     }
 }

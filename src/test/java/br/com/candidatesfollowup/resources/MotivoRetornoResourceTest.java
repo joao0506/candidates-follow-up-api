@@ -4,8 +4,6 @@ import br.com.candidatesfollowup.domain.MotivoRetorno;
 import br.com.candidatesfollowup.services.MotivoRetornoService;
 import br.com.candidatesfollowup.utils.MotivoRetornoMocks;
 import br.com.candidatesfollowup.utils.RealizarRequisicao;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class MotivoRetornoResourceTest {
 
     private static String path = "/motivo-retorno/";
 
-    private static MotivoRetorno motivoRetorno;
+    private static MotivoRetorno motivoRetorno = new MotivoRetorno();
 
     private static List<MotivoRetorno> motivosRetornoHabilitados, motivosRetornoDesabilitados;
 
@@ -56,20 +53,15 @@ public class MotivoRetornoResourceTest {
     public void setUp(){
         realizarRequisicao.setMockMvc(mockMvc);
         motivoRetorno = MotivoRetornoMocks.gerarMockMotivoRetorno();
-        motivosRetornoHabilitados = Arrays.asList(
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(1),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
-        motivosRetornoDesabilitados = Arrays.asList(
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(4));
+        motivosRetornoHabilitados = MotivoRetornoMocks.gerarMockMotivoRetornoListHabilitados();
+        motivosRetornoDesabilitados = MotivoRetornoMocks.gerarMockMotivoRetornoListDesabilitados();
     }
 
     /*
     * Dado um Motivo de Retorno válido, o status http deve ser 201 CREATED ao inserir com sucesso.
     * */
     @Test
-    public void deveRetornar201cREATEDAoInserirMotivoDeRetorno() throws Exception{
+    public void deveRetornar201CreatedAoInserirMotivoDeRetorno() throws Exception{
         when(motivoRetornoService.salvarMotivoRetorno(Mockito.any())).thenReturn(motivoRetorno);
         String motivoDeRetorno = "{\"descricao\": \"Remuneração\"}";
 
@@ -83,7 +75,7 @@ public class MotivoRetornoResourceTest {
     * ao tentar inserir um Motivo de Retorno null.
     * */
     @Test
-    public void deveRetornarErro400AoInserirMotivoDeRetornoComDescricaoNula() throws Exception{
+    public void deveRetornar400BadRequestAoInserirMotivoDeRetornoComDescricaoNula() throws Exception{
         String motivoDeRetorno = "{\"descricao\": null}";
         MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -94,7 +86,7 @@ public class MotivoRetornoResourceTest {
      * ao tentar inserir um Motivo de Retorno vazio.
      * */
     @Test
-    public void deveRetornarErro400AoInserirMotivoDeRetornoComDescricaoVazia() throws Exception{
+    public void deveRetornar400BadRequestAoInserirMotivoDeRetornoComDescricaoVazia() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"\"}";
         MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -105,7 +97,7 @@ public class MotivoRetornoResourceTest {
      * ao tentar inserir um Motivo de Retorno com tamanho menor que o permitido.
      * */
     @Test
-    public void deveRetornarErro400AoInserirMotivoDeRetornoComDescricaoMenorQueOValido() throws Exception{
+    public void deveRetornar400BadRequestAoInserirMotivoDeRetornoComDescricaoMenorQueOValido() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"a\"}";
         MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -116,7 +108,7 @@ public class MotivoRetornoResourceTest {
      * ao tentar inserir um Motivo de Retorno com tamanho maior que o permitido.
      * */
     @Test
-    public void deveRetornarErro400AoInserirMotivoDeRetornoComDescricaoMaiorQueOValido() throws Exception{
+    public void deveRetornar400BadRequestAoInserirMotivoDeRetornoComDescricaoMaiorQueOValido() throws Exception{
         String motivoDeRetorno = "{\"descricao\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}";
 
         MockHttpServletResponse response = realizarRequisicao.Post(path, motivoDeRetorno);
@@ -128,7 +120,7 @@ public class MotivoRetornoResourceTest {
      * Dado um Motivo de Retorno válido, o status http deve ser 204 NO_CONTENT ao atualizar com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoAtualizarMotivoDeRetorno() throws Exception {
+    public void deveRetornar204NoContentAoAtualizarMotivoDeRetorno() throws Exception {
         when(motivoRetornoService.fromDTO(any())).thenReturn(motivoRetorno);
 
         String motivoDeRetorno = "{\"descricao\": \"Teste Update\"}";
@@ -140,7 +132,7 @@ public class MotivoRetornoResourceTest {
      * Dado um código de Motivo de Retorno válido, o status http deve ser 204 NO_CONTENT ao desabilitar com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoDesabilitarMotivoDeRetorno() throws Exception {
+    public void deveRetornar204NoContentAoDesabilitarMotivoDeRetorno() throws Exception {
         MockHttpServletResponse response = realizarRequisicao.Put(path + "desabilitar/1", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
@@ -150,7 +142,7 @@ public class MotivoRetornoResourceTest {
      * o status http deve ser 204 NO_CONTENT ao desabilitar todos com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoDesabilitarTodosMotivosDeRetornoHabilitados() throws Exception {
+    public void deveRetornar204NoContentAoDesabilitarTodosMotivosDeRetornoHabilitados() throws Exception {
         MockHttpServletResponse response = realizarRequisicao.Put(path+"desabilitar/", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
@@ -159,7 +151,7 @@ public class MotivoRetornoResourceTest {
      * Dado um codigo de Motivo de Retorno válido, o status http deve ser 204 NO_CONTENT ao habilitar com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoHabilitarMotivoDeRetorno() throws Exception {
+    public void deveRetornar204NoContentAoHabilitarMotivoDeRetorno() throws Exception {
         MockHttpServletResponse response = realizarRequisicao.Put(path + "habilitar/2", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
@@ -169,7 +161,7 @@ public class MotivoRetornoResourceTest {
      * o status http deve ser 204 NO_CONTENT ao habilitar todos com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoHabilitarTodosMotivoDeRetornoDesabilitados() throws Exception {
+    public void deveRetornar204NoContentAoHabilitarTodosMotivoDeRetornoDesabilitados() throws Exception {
         MockHttpServletResponse response = realizarRequisicao.Put(path + "habilitar/", "");
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
@@ -178,8 +170,18 @@ public class MotivoRetornoResourceTest {
      * Dado um codigo de Motivo de Retorno válido, o status http deve ser 204 NO_CONTENT ao deletar com sucesso.
      * */
     @Test
-    public void deveRetornarNoContentAoDeletarMotivoDeRetorno() throws Exception {
+    public void deveRetornar204NoContentAoDeletarMotivoDeRetorno() throws Exception {
         MockHttpServletResponse response = realizarRequisicao.Delete(path+"2");
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+    }
+
+    /*
+     * Dada a requisição abaixo, o status http deve ser 204 NO_CONTENT ao deletar todos os motivos de retorno desabilitados.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoDeletarTodosMotivosDeRetornoDesabilitados() throws Exception {
+        MockHttpServletResponse response = realizarRequisicao.Delete(path+"desabilitados");
+
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
@@ -193,7 +195,10 @@ public class MotivoRetornoResourceTest {
 
         MockHttpServletResponse response = realizarRequisicao.Get(path+"1");
 
-        Assert.assertEquals(response.getContentAsString(StandardCharsets.UTF_8), motivoRetorno.toString());
+        MotivoRetorno motivoRetornoResponse = MotivoRetornoMocks.convertMockHttpServletResponseToMotivoRetorno(response);
+
+        Assert.assertEquals(motivoRetorno.getId(), motivoRetornoResponse.getId());
+        Assert.assertEquals(motivoRetorno.getDescricao(), motivoRetornoResponse.getDescricao());
     }
 
     /*
@@ -205,12 +210,12 @@ public class MotivoRetornoResourceTest {
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"", "0", "5");
 
-        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+        List<MotivoRetorno> motivosDeRetorno = MotivoRetornoMocks.convertMockHttpServletResponseToListMotivoRetorno(response);
 
         Assert.assertEquals(
-                motivosDeRetorno.getJSONObject(1).get("descricao"),
+                motivosDeRetorno.get(1).getDescricao(),
                 motivosRetornoHabilitados.get(1).getDescricao());
-        Assert.assertTrue(motivosDeRetorno.getJSONObject(1).getBoolean(("isAtivo")));
+        Assert.assertTrue(motivosDeRetorno.get(1).getIsAtivo());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
@@ -221,22 +226,19 @@ public class MotivoRetornoResourceTest {
     @Test
     public void deveRetornarMotivosDeRetornoPorDescricao() throws Exception{
         List<MotivoRetorno> motivosRetornoPaged = Arrays.asList(
-                                                        MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2),
-                                                        MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3));
+                                                        motivosRetornoHabilitados.get(1),
+                                                        motivosRetornoHabilitados.get(2));
         Page<MotivoRetorno> motivosRetorno = new PageImpl<>(motivosRetornoPaged);
         when(motivoRetornoService.buscarMotivoDeRetornoPorDescricao("mo",0,5))
                 .thenReturn(motivosRetorno);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"descricao", "mo",
                 "0", "5");
-        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
 
-        Assert.assertEquals(
-                motivosDeRetorno.getJSONObject(0).get("descricao"),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(2).getDescricao());
-        Assert.assertEquals(
-                motivosDeRetorno.getJSONObject(1).get("descricao"),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(3).getDescricao());
+        List<MotivoRetorno> motivosDeRetorno = MotivoRetornoMocks.convertMockHttpServletResponseToListMotivoRetorno(response);
+
+        Assert.assertEquals(motivosRetornoHabilitados.get(1).getDescricao(), motivosDeRetorno.get(0).getDescricao());
+        Assert.assertEquals(motivosRetornoHabilitados.get(2).getDescricao(), motivosDeRetorno.get(1).getDescricao());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
@@ -250,12 +252,11 @@ public class MotivoRetornoResourceTest {
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"descricao", "",
                 "0", "5");
+        List<MotivoRetorno> motivosDeRetorno = MotivoRetornoMocks.convertMockHttpServletResponseToListMotivoRetorno(response);
 
-        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
-
-        Assert.assertEquals(motivosDeRetorno.length(), 3L);
-        Assert.assertEquals(motivosDeRetorno.getJSONObject(0).getString("descricao"), motivosRetornoHabilitados.get(0).getDescricao());
-        Assert.assertTrue(motivosDeRetorno.getJSONObject(2).getBoolean("isAtivo"));
+        Assert.assertEquals(motivosDeRetorno.size(), 3L);
+        Assert.assertEquals(motivosDeRetorno.get(0).getDescricao(), motivosRetornoHabilitados.get(0).getDescricao());
+        Assert.assertTrue(motivosDeRetorno.get(2).getIsAtivo());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
@@ -268,22 +269,12 @@ public class MotivoRetornoResourceTest {
                 .thenReturn(new PageImpl<>(motivosRetornoDesabilitados));
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"/desabilitados", "0", "5");
-        JSONArray motivosDeRetorno = new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).get("content").toString());
+        List<MotivoRetorno> motivosDeRetorno = MotivoRetornoMocks.convertMockHttpServletResponseToListMotivoRetorno(response);
 
         Assert.assertEquals(
-                motivosDeRetorno.getJSONObject(0).get("descricao"),
-                MotivoRetornoMocks.gerarMockListMotivosRetorno().get(0).getDescricao());
-        Assert.assertFalse(motivosDeRetorno.getJSONObject(0).getBoolean("isAtivo"));
+                motivosDeRetorno.get(0).getDescricao(),
+                motivosRetornoDesabilitados.get(0).getDescricao());
+        Assert.assertFalse(motivosDeRetorno.get(0).getIsAtivo());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
-    }
-
-    /*
-    * Dada a requisição abaixo, o status http deve ser 204 NO_CONTENT ao deletar todos os motivos de retorno desabilitados.
-    * */
-    @Test
-    public void deveRetornarNoContentAoDeletarTodosMotivosDeRetornoDesabilitados() throws Exception {
-        MockHttpServletResponse response = realizarRequisicao.Delete(path+"desabilitados");
-
-        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 }
