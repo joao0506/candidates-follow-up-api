@@ -31,7 +31,7 @@ public class MotivoRetornoServiceTest {
     @Mock
     MotivoRetornoRepository motivoRetornoRepository;
 
-    private static MotivoRetorno motivoRetorno = new MotivoRetorno();
+    private static MotivoRetorno motivoRetorno;
 
     private static List<MotivoRetorno> motivosRetornoHabilitados, motivosRetornoDesabilitados;
 

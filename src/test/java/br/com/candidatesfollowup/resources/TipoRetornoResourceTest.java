@@ -269,7 +269,7 @@ public class TipoRetornoResourceTest {
         List<TipoRetorno> tipoRetornoList = TipoRetornoMocks.convertMockHttpServletResponseToListTipoRetorno(response);
 
         Assert.assertEquals(tipoRetornoHabilitados.get(0).getDescricao(), tipoRetornoList.get(0).getDescricao());
-        Assert.assertTrue(tipoRetornoList.get(2).getIsAtivo());
+        Assert.assertTrue(tipoRetornoList.get(1).getIsAtivo());
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 

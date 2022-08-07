@@ -20,14 +20,13 @@ public class TipoRetornoMocks {
     public static List<TipoRetorno> gerarMockTipoRetornoListHabilitados(){
         return Arrays.asList(
                 new TipoRetorno(1, "InMail", true),
-                new TipoRetorno(2, "InBox", true),
-                new TipoRetorno(3, "LinkedIn", true)
+                new TipoRetorno(2, "InBox", true)
         );
     }
 
     public static List<TipoRetorno> gerarMockTipoRetornoListDesabilitados(){
         return Arrays.asList(
-                new TipoRetorno(1, "E-mail", false)
+                new TipoRetorno(3, "E-mail", false)
         );
     }
 
