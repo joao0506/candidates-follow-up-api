@@ -35,4 +35,29 @@ public class CandidatoRetornoResource {
         candidatoRetornoService.salvarCandidatoRetorno(candidatoRetorno);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("desabilitar")
+    public ResponseEntity<?> desabilitarTodosRetornosCandidatosHabilitados(){
+        candidatoRetornoService.desabilitarTodosRetornosCandidatosHabilitados();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("desabilitar/{idRetornoCandidato}")
+    public ResponseEntity<?> desabilitarRetornoCandidato(@PathVariable Integer idRetornoCandidato){
+        candidatoRetornoService.desabilitarRetornoCandidato(idRetornoCandidato);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("habilitar")
+    public ResponseEntity<?> habilitarTodosRetornosCandidatosDesabilitados(){
+        candidatoRetornoService.habilitarTodosRetornosCandidatosDesabilitados();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("habilitar/{idRetornoCandidato}")
+    public ResponseEntity<?> habilitarRetornoCandidato(@PathVariable Integer idRetornoCandidato){
+        candidatoRetornoService.habilitarRetornoCandidato(idRetornoCandidato);
+        return ResponseEntity.noContent().build();
+    }
+
 }
