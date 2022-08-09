@@ -51,7 +51,7 @@ public class CandidatoRetornoResourceTest {
     * */
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidato() throws Exception {
-        when(candidatoRetornoService.salvarRetornoCandidato(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"2022-08-08\",   " +
                 " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
                 " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
@@ -66,7 +66,7 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidatoComNomeMinimoPermitido() throws Exception {
-        when(candidatoRetornoService.salvarRetornoCandidato(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aa\",    \"dataRetorno\": \"2022-08-08\",   " +
                 " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
                 " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
@@ -81,7 +81,7 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidatoComNomeMaximoPermitido() throws Exception {
-        when(candidatoRetornoService.salvarRetornoCandidato(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",    \"dataRetorno\": \"2022-08-08\",   " +
                 " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
                 " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
@@ -96,7 +96,7 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComNomeMenorQueOPermitido() throws Exception {
-        when(candidatoRetornoService.salvarRetornoCandidato(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         String candidatoRetornoRequest = "{    \"nomeCandidato\": \"a\",    \"dataRetorno\": \"2022-08-08\",   " +
                 " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
                 " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
@@ -111,7 +111,7 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComNomeMaiorQueOPermitido() throws Exception {
-        when(candidatoRetornoService.salvarRetornoCandidato(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",    \"dataRetorno\": \"2022-08-08\",   " +
                 " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
                 " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";

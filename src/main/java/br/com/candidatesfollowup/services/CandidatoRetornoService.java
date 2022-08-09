@@ -2,11 +2,15 @@ package br.com.candidatesfollowup.services;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
 import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
+import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
 import br.com.candidatesfollowup.repositories.CandidatoRetornoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class CandidatoRetornoService {
@@ -15,7 +19,7 @@ public class CandidatoRetornoService {
     private CandidatoRetornoRepository candidatoRetornoRepository;
 
     @Transactional
-    public CandidatoRetorno salvarRetornoCandidato(CandidatoRetorno candidatoRetorno) {
+    public CandidatoRetorno salvarCandidatoRetorno(CandidatoRetorno candidatoRetorno) {
         return candidatoRetornoRepository.save(candidatoRetorno);
     }
 

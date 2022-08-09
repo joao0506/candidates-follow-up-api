@@ -5,10 +5,7 @@ import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
 import br.com.candidatesfollowup.services.CandidatoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -24,9 +21,18 @@ public class CandidatoRetornoResource {
     @PostMapping
     public ResponseEntity<?> inserirRetornoCandidato(@Valid @RequestBody CandidatoRetornoDTO candidatoRetornoDTO){
         CandidatoRetorno candidatoRetorno = candidatoRetornoService.fromDTO(candidatoRetornoDTO);
-        candidatoRetorno = candidatoRetornoService.salvarRetornoCandidato(candidatoRetorno);
+        candidatoRetorno = candidatoRetornoService.salvarCandidatoRetorno(candidatoRetorno);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(candidatoRetorno.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{idRetornoCandidato}")
+    public ResponseEntity<?> atualizarRetornoCandidato(@PathVariable Integer idRetornoCandidato,
+                                                       @Valid @RequestBody CandidatoRetornoDTO candidatoRetornoDTO){
+        CandidatoRetorno candidatoRetorno = candidatoRetornoService.fromDTO(candidatoRetornoDTO);
+        candidatoRetorno.setId(idRetornoCandidato);
+        candidatoRetornoService.salvarCandidatoRetorno(candidatoRetorno);
+        return ResponseEntity.noContent().build();
     }
 }
