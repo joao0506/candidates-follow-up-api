@@ -157,4 +157,23 @@ public class CandidatoRetornoResourceTest {
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
     }
+
+    /*
+     * Dado um retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao atualizar com sucesso o retorno para o candidato.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoAtualizarORetornoDoCandidato() throws Exception {
+        when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
+        when(candidatoRetornoService.fromDTO(any())).thenReturn(candidatoRetorno);
+
+        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"2022-08-08\",   " +
+                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
+                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"/1", candidatoRetornoRequest);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+
 }
