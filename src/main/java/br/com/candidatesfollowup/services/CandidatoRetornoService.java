@@ -7,6 +7,9 @@ import br.com.candidatesfollowup.repositories.CandidatoRetornoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -72,6 +75,11 @@ public class CandidatoRetornoService {
     @Transactional
     public void deletarRetornoCandidatoDesabilitados() {
         candidatoRetornoRepository.deleteAllByIsAtivoFalse();
+    }
+
+    public Page<CandidatoRetorno> buscarTodosRetornoCandidatoHabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return candidatoRetornoRepository.findAllByIsAtivoTrue(pageRequest);
     }
 
     public CandidatoRetorno buscarCandidatoRetornoPorId(Integer idCandidatoRetorno){

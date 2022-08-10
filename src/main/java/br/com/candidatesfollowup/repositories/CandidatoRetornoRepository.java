@@ -1,6 +1,8 @@
 package br.com.candidatesfollowup.repositories;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +36,6 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     void candidatoNaoContatado(Integer idCandidatoRetorno);
 
     void deleteAllByIsAtivoFalse();
+
+    Page<CandidatoRetorno> findAllByIsAtivoTrue(Pageable pageRequest);
 }
