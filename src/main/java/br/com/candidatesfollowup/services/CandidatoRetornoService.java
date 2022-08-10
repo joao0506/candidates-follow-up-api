@@ -51,6 +51,18 @@ public class CandidatoRetornoService {
         LOGGER.info("habilitarRetornoCandidato(): Retorno do Candidato "+idRetornoCandidato+" habilitado!");
     }
 
+    @Transactional
+    public void marcarRetornoCandidatoComoContatado(Integer idRetornoCandidato) {
+        candidatoRetornoRepository.candidatoContatado(idRetornoCandidato);
+        LOGGER.info("Candidato com id "+idRetornoCandidato+" marcado como contatado!");
+    }
+
+    @Transactional
+    public void marcarRetornoCandidatoComoNaoContatado(Integer idRetornoCandidato) {
+        candidatoRetornoRepository.candidatoNaoContatado(idRetornoCandidato);
+        LOGGER.info("Candidato com id "+idRetornoCandidato+" marcado como não contatado!");
+    }
+
     public CandidatoRetorno buscarCandidatoRetornoPorId(Integer idCandidatoRetorno){
         LOGGER.info("Buscando retorno do candidato com id: "+idCandidatoRetorno);
         Optional<CandidatoRetorno> candidatoRetorno = candidatoRetornoRepository.findById(idCandidatoRetorno);
@@ -61,4 +73,5 @@ public class CandidatoRetornoService {
         return new CandidatoRetorno(null, candidatoRetornoDTO.getNomeCandidato().trim(), candidatoRetornoDTO.getDataRetorno(),
                 true, false, candidatoRetornoDTO.getMotivoRetorno(), candidatoRetornoDTO.getTipoRetorno());
     }
+
 }

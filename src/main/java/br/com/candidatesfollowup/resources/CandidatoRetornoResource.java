@@ -60,4 +60,16 @@ public class CandidatoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("contatado/{idRetornoCandidato}")
+    public ResponseEntity<?> marcarRetornoCandidatoComoContatado(@PathVariable Integer idRetornoCandidato){
+        candidatoRetornoService.marcarRetornoCandidatoComoContatado(idRetornoCandidato);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("descontatado/{idRetornoCandidato}")
+    public ResponseEntity<?> marcarRetornoCandidatoComoNaoContatado(@PathVariable Integer idRetornoCandidato){
+        candidatoRetornoService.marcarRetornoCandidatoComoNaoContatado(idRetornoCandidato);
+        return ResponseEntity.noContent().build();
+    }
+
 }

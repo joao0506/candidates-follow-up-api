@@ -25,4 +25,12 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     @Query("UPDATE CandidatoRetorno c SET c.isAtivo = TRUE WHERE c.id = ?1")
     void enableCandidatoRetorno(Integer idCandidatoRetorno);
 
+    @Modifying
+    @Query("UPDATE CandidatoRetorno c SET c.isCandidatoContatado = TRUE WHERE c.id = ?1")
+    void candidatoContatado(Integer idCandidatoRetorno);
+
+    @Modifying
+    @Query("UPDATE CandidatoRetorno c SET c.isCandidatoContatado = FALSE WHERE c.id = ?1")
+    void candidatoNaoContatado(Integer idCandidatoRetorno);
+
 }
