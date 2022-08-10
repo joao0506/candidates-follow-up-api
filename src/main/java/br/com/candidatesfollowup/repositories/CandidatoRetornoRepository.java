@@ -33,4 +33,5 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     @Query("UPDATE CandidatoRetorno c SET c.isCandidatoContatado = FALSE WHERE c.id = ?1")
     void candidatoNaoContatado(Integer idCandidatoRetorno);
 
+    void deleteAllByIsAtivoFalse();
 }

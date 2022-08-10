@@ -69,6 +69,11 @@ public class CandidatoRetornoService {
         LOGGER.info("deletarRetornoCandidato(): Retorno do candidato com id "+idRetornoCandidato+" foi excluído.");
     }
 
+    @Transactional
+    public void deletarRetornoCandidatoDesabilitados() {
+        candidatoRetornoRepository.deleteAllByIsAtivoFalse();
+    }
+
     public CandidatoRetorno buscarCandidatoRetornoPorId(Integer idCandidatoRetorno){
         LOGGER.info("Buscando retorno do candidato com id: "+idCandidatoRetorno);
         Optional<CandidatoRetorno> candidatoRetorno = candidatoRetornoRepository.findById(idCandidatoRetorno);

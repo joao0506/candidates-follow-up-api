@@ -78,4 +78,10 @@ public class CandidatoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/desabilitados")
+    public ResponseEntity<?> deletarRetornoCandidatoDesabilitados(){
+        candidatoRetornoService.deletarRetornoCandidatoDesabilitados();
+        return ResponseEntity.noContent().build();
+    }
+
 }
