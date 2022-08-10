@@ -175,5 +175,76 @@ public class CandidatoRetornoResourceTest {
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
     }
 
+    /*
+     * Dado a requisição abaixo,
+     * deve retornar 204 NO CONTENT ao desabilitar com sucesso todos os retornos de candidato Habilitados.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoDesabilitarTodosOsRetornosDeCandidatoHabilitados() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"desabilitar","");
+
+        verify(candidatoRetornoService, times(1)).desabilitarTodosRetornosCandidatosHabilitados();
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado um código de retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao desabilitar com sucesso o retorno do candidato.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoDesabilitarORetornoDoCandidato() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"desabilitar/1", "");
+
+        verify(candidatoRetornoService, times(1)).desabilitarRetornoCandidato(1);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado a requisição abaixo,
+     * deve retornar 204 NO CONTENT ao habilitar com sucesso todos os retornos de candidato desabilitados.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoHabilitarTodosOsRetornosDeCandidatoDesabilitados() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"habilitar","");
+
+        verify(candidatoRetornoService, times(1)).habilitarTodosRetornosCandidatosDesabilitados();
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado um código de retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao habilitar com sucesso o retorno do candidato.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoHabilitarORetornoDoCandidato() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"habilitar/1", "");
+
+        verify(candidatoRetornoService, times(1)).habilitarRetornoCandidato(1);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado um código de retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao marcar com sucesso o retorno do candidato como contatado.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoContatarORetornoDoCandidato() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"contatado/1", "");
+
+        verify(candidatoRetornoService, times(1)).marcarRetornoCandidatoComoContatado(1);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado um código de retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao marcar com sucesso o retorno do candidato como não contatado.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoNaoContatarORetornoDoCandidato() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"descontatado/1", "");
+
+        verify(candidatoRetornoService, times(1)).marcarRetornoCandidatoComoNaoContatado(1);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
 
 }
