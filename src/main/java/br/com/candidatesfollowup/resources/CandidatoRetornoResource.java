@@ -92,4 +92,16 @@ public class CandidatoRetornoResource {
         return ResponseEntity.ok(candidatoRetornos);
     }
 
+    @GetMapping("/desabilitados")
+    public ResponseEntity<?> buscarTodosRetornoCandidatoDesabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                    @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
+        Page<CandidatoRetorno> candidatoRetornos = candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados(page, linesPerPage);
+        return ResponseEntity.ok(candidatoRetornos);
+    }
+
+    @GetMapping("/{idRetornoCandidato}")
+    public ResponseEntity<?> buscarRetornoCandidatoPorId(@PathVariable Integer idRetornoCandidato){
+        return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoPorId(idRetornoCandidato));
+    }
+
 }

@@ -38,4 +38,6 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     void deleteAllByIsAtivoFalse();
 
     Page<CandidatoRetorno> findAllByIsAtivoTrue(Pageable pageRequest);
+
+    Page<CandidatoRetorno> findAllByIsAtivoFalse(Pageable pageRequest);
 }

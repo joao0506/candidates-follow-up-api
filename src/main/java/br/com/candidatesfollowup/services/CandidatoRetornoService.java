@@ -82,6 +82,11 @@ public class CandidatoRetornoService {
         return candidatoRetornoRepository.findAllByIsAtivoTrue(pageRequest);
     }
 
+    public Page<CandidatoRetorno> buscarTodosRetornoCandidatoDesabilitados(Integer page, Integer linesPerPage) {
+        Pageable pageRequest = PageRequest.of(page, linesPerPage);
+        return candidatoRetornoRepository.findAllByIsAtivoFalse(pageRequest);
+    }
+
     public CandidatoRetorno buscarCandidatoRetornoPorId(Integer idCandidatoRetorno){
         LOGGER.info("Buscando retorno do candidato com id: "+idCandidatoRetorno);
         Optional<CandidatoRetorno> candidatoRetorno = candidatoRetornoRepository.findById(idCandidatoRetorno);
@@ -92,5 +97,4 @@ public class CandidatoRetornoService {
         return new CandidatoRetorno(null, candidatoRetornoDTO.getNomeCandidato().trim(), candidatoRetornoDTO.getDataRetorno(),
                 true, false, candidatoRetornoDTO.getMotivoRetorno(), candidatoRetornoDTO.getTipoRetorno());
     }
-
 }
