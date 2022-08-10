@@ -247,4 +247,28 @@ public class CandidatoRetornoResourceTest {
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
     }
 
+    /*
+     * Dado um código de retorno de candidato válido,
+     * deve retornar 204 NO CONTENT ao deletar com sucesso o retorno do candidato.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoDeletarORetornoDoCandidato() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Delete(path+"/1");
+
+        verify(candidatoRetornoService, times(1)).deletarRetornoCandidato(1);
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado a requisição abaixo,
+     * deve retornar 204 NO CONTENT ao deletar com sucesso todos os retornos de candidato desabilitados.
+     * */
+    @Test
+    public void deveRetornar204NoContentAoDeletarTodosOsRetornosDoCandidatoDesabilitados() throws Exception {
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Delete(path+"/desabilitados");
+
+        verify(candidatoRetornoService, times(1)).deletarRetornoCandidatoDesabilitados();
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
 }
