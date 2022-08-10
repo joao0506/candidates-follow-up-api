@@ -72,4 +72,10 @@ public class CandidatoRetornoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{idRetornoCandidato}")
+    public ResponseEntity<?> deletarRetornoCandidato(@PathVariable Integer idRetornoCandidato){
+        candidatoRetornoService.deletarRetornoCandidato(idRetornoCandidato);
+        return ResponseEntity.noContent().build();
+    }
+
 }
