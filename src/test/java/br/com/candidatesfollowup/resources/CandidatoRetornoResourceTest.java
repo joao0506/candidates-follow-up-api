@@ -4,6 +4,8 @@ import br.com.candidatesfollowup.domain.CandidatoRetorno;
 import br.com.candidatesfollowup.services.CandidatoRetornoService;
 import br.com.candidatesfollowup.utils.CandidatoRetornoMocks;
 import br.com.candidatesfollowup.utils.RealizarRequisicao;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -38,11 +43,14 @@ public class CandidatoRetornoResourceTest {
     private RealizarRequisicao realizarRequisicao = new RealizarRequisicao();
     private static String path = "/candidato-retorno/";
     private static CandidatoRetorno candidatoRetorno;
+    private static List<CandidatoRetorno> candidatosRetornoHabilitados, candidatosRetornoDesabilitados;
 
     @Before
     public void setUp(){
         realizarRequisicao.setMockMvc(mockMvc);
         candidatoRetorno = CandidatoRetornoMocks.gerarMockCandidatoRetorno();
+        candidatosRetornoHabilitados = CandidatoRetornoMocks.gerarMockListCandidatoRetornoHabilitados();
+        candidatosRetornoDesabilitados = CandidatoRetornoMocks.gerarMockListCandidatoRetornoDesabilitados();
     }
 
     /*
@@ -269,6 +277,55 @@ public class CandidatoRetornoResourceTest {
 
         verify(candidatoRetornoService, times(1)).deletarRetornoCandidatoDesabilitados();
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
+    }
+
+    /*
+     * Dado a requisição abaixo,
+     * deve retornar 200 OK ao listar com sucesso todos os retornos de candidato habilitados.
+     * */
+    @Test
+    public void deveRetornar200OkAoListarTodosOsRetornosDoCandidatoHabilitados() throws Exception {
+        when(candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados(0, 5)).thenReturn(new PageImpl<>(candidatosRetornoHabilitados));
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.GetPaginado(path, "0", "5");
+
+        JSONArray response = CandidatoRetornoMocks.convertMockHttpServletResponseJson(candidatoRetornoResponse);
+
+        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoHabilitados(0,5);
+        Assert.assertEquals(candidatosRetornoHabilitados.size(), response.length());
+        Assert.assertTrue(response.getJSONObject(0).getBoolean("isAtivo"));
+    }
+
+    /*
+     * Dado a requisição abaixo,
+     * deve retornar 200 OK ao listar com sucesso todos os retornos de candidato desabilitados.
+     * */
+    @Test
+    public void deveRetornar200OkAoListarTodosOsRetornosDoCandidatoDesabilitados() throws Exception {
+        when(candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados(0, 5)).thenReturn(new PageImpl<>(candidatosRetornoDesabilitados));
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.GetPaginado(path+"/desabilitados", "0", "5");
+
+        JSONArray response = CandidatoRetornoMocks.convertMockHttpServletResponseJson(candidatoRetornoResponse);
+
+        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoDesabilitados(0,5);
+        Assert.assertEquals(candidatosRetornoDesabilitados.size(), response.length());
+        Assert.assertFalse(response.getJSONObject(0).getBoolean("isAtivo"));
+    }
+
+    /*
+     * Dado um id válido,
+     * deve retornar 200 OK ao listar com sucesso o retorno de candidado do id informado.
+     * */
+    @Test
+    public void deveRetornar200OkAoListarPorId() throws Exception {
+        Integer id = 2;
+        when(candidatoRetornoService.buscarCandidatoRetornoPorId(id)).thenReturn(candidatosRetornoHabilitados.get(1));
+        MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Get(path+"/"+id);
+
+        JSONObject response = CandidatoRetornoMocks.convertMockHttpServletResponseJsonObject(candidatoRetornoResponse);
+
+        verify(candidatoRetornoService, times(1)).buscarCandidatoRetornoPorId(id);
+        Assert.assertEquals(id, response.get("id"));
+        Assert.assertTrue(response.getBoolean("isAtivo"));
     }
 
 }
