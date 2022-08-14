@@ -45,4 +45,8 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     Page<CandidatoRetorno> findAllByIsAtivoFalse(Pageable pageRequest);
 
     List<CandidatoRetorno> findAllByIsAtivoTrueAndDataRetorno(LocalDate data);
+
+    List<CandidatoRetorno> findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCaseAndDataRetorno(String nomeCandidato, LocalDate data);
+
+    List<CandidatoRetorno> findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCase(String nomeCandidato);
 }

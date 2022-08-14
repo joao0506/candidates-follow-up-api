@@ -5,14 +5,20 @@ import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
 import br.com.candidatesfollowup.services.CandidatoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -111,5 +117,13 @@ public class CandidatoRetornoResource {
     public ResponseEntity<?> buscarCandidatoRetornoHabilitadosPorDataAtual(){
         return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoHabilitadosPorData(LocalDate.now()));
     }
+
+    @GetMapping("/nome-candidato-data-retorno")
+    public ResponseEntity<?> buscarTodosRetornoCandidatoPorDescricaoEDataDeRetorno(@RequestParam(value = "nomeCandidato", defaultValue = "") String nomeCandidato,
+                                                                      @RequestParam(value = "dataRetorno")  String data) throws ParseException {
+
+        return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoHabilitadosPorNomeCandidatoEDataRetorno(nomeCandidato, data));
+    }
+
 
 }

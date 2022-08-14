@@ -25,7 +25,7 @@ public class CandidatoRetorno {
     @Column(length = 80)
     private String nomeCandidato;
 
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern="MM/dd/yyyy")
     private LocalDate dataRetorno;
 
     private Boolean isAtivo;

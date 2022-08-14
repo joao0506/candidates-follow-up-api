@@ -13,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,6 +100,27 @@ public class CandidatoRetornoService {
 
     public List<CandidatoRetorno> buscarCandidatoRetornoHabilitadosPorData(LocalDate dataRetorno){
         return candidatoRetornoRepository.findAllByIsAtivoTrueAndDataRetorno(dataRetorno);
+    }
+
+    public List<CandidatoRetorno> buscarCandidatoRetornoHabilitadosPorNomeCandidatoEDataRetorno(String nomeCandidato, String dataRetorno) throws ParseException {
+        LocalDate data = null;
+        if (!dataRetorno.trim().isEmpty() && !dataRetorno.equals("null")) data = new SimpleDateFormat("dd/MM/yyyy").parse(dataRetorno)
+                                                                                    .toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LOGGER.info("buscarCandidatoRetornoHabilitadosPorNomeCandidatoEDataRetorno(): nomeCandidato: "+nomeCandidato+" Data do Retorno: "+dataRetorno);
+
+        if (!nomeCandidato.trim().isEmpty() && (!dataRetorno.equals("null") && !dataRetorno.isEmpty())) {
+            LOGGER.info("Buscar por nome do candidato e data do retorno");
+            return candidatoRetornoRepository.findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCaseAndDataRetorno(nomeCandidato, data);
+        }
+        else if (!nomeCandidato.trim().isEmpty() && (dataRetorno.equals("null") || dataRetorno.isEmpty())) {
+            LOGGER.info("Buscar por nome do candidato, pois data é nula.");
+            return candidatoRetornoRepository.findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCase(nomeCandidato);
+        }
+        else if (nomeCandidato.trim().isEmpty() && (!dataRetorno.equals("null") && !dataRetorno.isEmpty())) {
+            LOGGER.info("Buscar por data, pois nome do candidato está vazio!");
+            return buscarCandidatoRetornoHabilitadosPorData(data);
+        } else return buscarCandidatoRetornoHabilitadosPorData(LocalDate.now());
     }
 
     public CandidatoRetorno fromDTO(CandidatoRetornoDTO candidatoRetornoDTO){
