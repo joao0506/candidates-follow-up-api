@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -91,6 +93,10 @@ public class CandidatoRetornoService {
         LOGGER.info("Buscando retorno do candidato com id: "+idCandidatoRetorno);
         Optional<CandidatoRetorno> candidatoRetorno = candidatoRetornoRepository.findById(idCandidatoRetorno);
         return candidatoRetorno.orElseThrow(() -> new ObjectNotFoundException("Retorno do candidato não encontrado!"));
+    }
+
+    public List<CandidatoRetorno> buscarCandidatoRetornoHabilitadosPorData(LocalDate dataRetorno){
+        return candidatoRetornoRepository.findAllByIsAtivoTrueAndDataRetorno(dataRetorno);
     }
 
     public CandidatoRetorno fromDTO(CandidatoRetornoDTO candidatoRetornoDTO){

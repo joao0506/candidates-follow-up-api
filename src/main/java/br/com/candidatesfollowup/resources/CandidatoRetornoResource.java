@@ -11,6 +11,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @CrossOrigin
 @RestController
@@ -103,6 +105,11 @@ public class CandidatoRetornoResource {
     @GetMapping("/{idRetornoCandidato}")
     public ResponseEntity<?> buscarRetornoCandidatoPorId(@PathVariable Integer idRetornoCandidato){
         return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoPorId(idRetornoCandidato));
+    }
+
+    @GetMapping("/data-atual-retorno")
+    public ResponseEntity<?> buscarCandidatoRetornoHabilitadosPorDataAtual(){
+        return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoHabilitadosPorData(LocalDate.now()));
     }
 
 }
