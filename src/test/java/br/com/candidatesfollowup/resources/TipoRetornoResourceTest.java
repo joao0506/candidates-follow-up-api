@@ -262,7 +262,7 @@ public class TipoRetornoResourceTest {
      * */
     @Test
     public void deveRetornarTodosTiposDeRetornoHabilitados() throws Exception {
-        when(tipoRetornoService.buscarTodosTiposDeRetornoHabilitados(0, 5)).thenReturn(new PageImpl<>(tipoRetornoHabilitados));
+        when(tipoRetornoService.buscarTodosTiposDeRetornoHabilitados()).thenReturn(tipoRetornoHabilitados);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path, "0", "5");
 
@@ -297,7 +297,7 @@ public class TipoRetornoResourceTest {
      * */
     @Test
     public void deveRetornarTodosOsMotivosDeRetornoHabilitadosQuandoADescricaoEhVazia() throws Exception {
-        when(tipoRetornoService.buscarTodosTiposDeRetornoHabilitados(0, 5)).thenReturn(new PageImpl<>(tipoRetornoHabilitados));
+        when(tipoRetornoService.buscarTodosTiposDeRetornoHabilitados()).thenReturn(tipoRetornoHabilitados);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"/descricao","", "0", "5");
         List<TipoRetorno> tipoRetornoList = TipoRetornoMocks.convertMockHttpServletResponseToListTipoRetorno(response);

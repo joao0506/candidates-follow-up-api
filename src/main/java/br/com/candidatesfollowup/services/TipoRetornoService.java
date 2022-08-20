@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,9 +59,8 @@ public class TipoRetornoService {
         return tipoRetorno.orElseThrow(() -> new ObjectNotFoundException("Tipo De Retorno não encontrado!"));
     }
 
-    public Page<TipoRetorno> buscarTodosTiposDeRetornoHabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageable = PageRequest.of(page, linesPerPage);
-        return tipoRetornoRepository.findAllByIsAtivoTrue(pageable);
+    public List<TipoRetorno> buscarTodosTiposDeRetornoHabilitados() {
+        return tipoRetornoRepository.findAllByIsAtivoTrue();
     }
 
     public Page<TipoRetorno> buscarTodosTiposDeRetornoDesabilitados(Integer page, Integer linesPerPage) {

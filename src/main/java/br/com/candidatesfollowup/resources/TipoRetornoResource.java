@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -79,9 +80,8 @@ public class TipoRetornoResource {
     }
 
     @GetMapping
-    public ResponseEntity<?> buscarTodosTiposDeRetornoHabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                  @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
-        Page<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados(page, linesPerPage);
+    public ResponseEntity<?> buscarTodosTiposDeRetornoHabilitados(){
+        List<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados();
         return ResponseEntity.ok(tiposRetorno);
     }
 
@@ -89,7 +89,7 @@ public class TipoRetornoResource {
     public ResponseEntity<?> buscarTipoDeRetornoPorDescricao(@RequestParam(value = "descricao", defaultValue = "") String descricaoTipoRetorno,
                                                                 @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                 @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
-        if (descricaoTipoRetorno.trim().isEmpty()) return buscarTodosTiposDeRetornoHabilitados(page, linesPerPage);
+        if (descricaoTipoRetorno.trim().isEmpty()) return buscarTodosTiposDeRetornoHabilitados();
         Page<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTipoDeRetornoPorDescricao(descricaoTipoRetorno, page, linesPerPage);
         return ResponseEntity.ok(tiposRetorno);
     }

@@ -144,12 +144,12 @@ public class TipoRetornoServiceTest {
     * */
     @Test
     public void deveRetornarTodosOsTiposDeRetornoHabilitados(){
-        when(tipoRetornoRepository.findAllByIsAtivoTrue(PageRequest.of(0, 5)))
-                .thenReturn(new PageImpl<>(tipoRetornoHabilitados));
+        when(tipoRetornoRepository.findAllByIsAtivoTrue())
+                .thenReturn(tipoRetornoHabilitados);
 
-        Page<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados(0, 5);
+        List<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados();
 
-        Assert.assertEquals(tipoRetornoHabilitados.size(), tipoRetornoList.getSize());
+        Assert.assertEquals(tipoRetornoHabilitados.size(), tipoRetornoList.size());
     }
 
     /*

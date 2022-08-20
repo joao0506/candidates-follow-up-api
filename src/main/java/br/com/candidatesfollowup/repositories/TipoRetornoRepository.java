@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Integer> {
 
-    Page<TipoRetorno> findAllByIsAtivoTrue(Pageable pageable);
+    List<TipoRetorno> findAllByIsAtivoTrue();
 
     Page<TipoRetorno> findAllByIsAtivoFalse(Pageable pageable);
 
