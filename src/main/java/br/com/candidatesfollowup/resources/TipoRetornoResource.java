@@ -86,11 +86,9 @@ public class TipoRetornoResource {
     }
 
     @GetMapping("/descricao")
-    public ResponseEntity<?> buscarTipoDeRetornoPorDescricao(@RequestParam(value = "descricao", defaultValue = "") String descricaoTipoRetorno,
-                                                                @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
+    public ResponseEntity<?> buscarTipoDeRetornoPorDescricao(@RequestParam(value = "descricao", defaultValue = "") String descricaoTipoRetorno){
         if (descricaoTipoRetorno.trim().isEmpty()) return buscarTodosTiposDeRetornoHabilitados();
-        Page<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTipoDeRetornoPorDescricao(descricaoTipoRetorno, page, linesPerPage);
+        List<TipoRetorno> tiposRetorno = tipoRetornoService.buscarTipoDeRetornoPorDescricao(descricaoTipoRetorno);
         return ResponseEntity.ok(tiposRetorno);
     }
 

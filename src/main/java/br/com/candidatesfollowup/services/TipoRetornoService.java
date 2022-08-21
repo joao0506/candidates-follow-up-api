@@ -68,9 +68,8 @@ public class TipoRetornoService {
         return tipoRetornoRepository.findAllByIsAtivoFalse(pageable);
     }
 
-    public Page<TipoRetorno> buscarTipoDeRetornoPorDescricao(String descricao, Integer page, Integer linesPerPage) {
-        Pageable pageable = PageRequest.of(page, linesPerPage);
-        return tipoRetornoRepository.findByDescricaoContainingIgnoreCase(descricao, pageable);
+    public List<TipoRetorno> buscarTipoDeRetornoPorDescricao(String descricao) {
+        return tipoRetornoRepository.findByDescricaoContainingIgnoreCase(descricao);
     }
 
     public TipoRetorno fromDTO(TipoRetornoDTO tipoRetornoDTO) {

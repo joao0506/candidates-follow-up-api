@@ -176,12 +176,12 @@ public class TipoRetornoServiceTest {
                 new TipoRetorno(4, "E-mail", false)
         );
 
-        when(tipoRetornoRepository.findByDescricaoContainingIgnoreCase("ma", PageRequest.of(0, 5)))
-                .thenReturn(new PageImpl<>(tipoRetornoListbyDescricao));
+        when(tipoRetornoRepository.findByDescricaoContainingIgnoreCase("ma"))
+                .thenReturn(tipoRetornoListbyDescricao);
 
-        Page<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTipoDeRetornoPorDescricao("ma",0, 5);
+        List<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTipoDeRetornoPorDescricao("ma");
 
-        Assert.assertEquals(tipoRetornoListbyDescricao.size(), tipoRetornoList.getSize());
+        Assert.assertEquals(tipoRetornoListbyDescricao.size(), tipoRetornoList.size());
     }
 
 

@@ -17,7 +17,7 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
 
     Page<TipoRetorno> findAllByIsAtivoFalse(Pageable pageable);
 
-    Page<TipoRetorno> findByDescricaoContainingIgnoreCase(String descricao, Pageable pageable);
+    List<TipoRetorno> findByDescricaoContainingIgnoreCase(String descricao);
 
     @Modifying
     @Query("UPDATE TipoRetorno t SET t.isAtivo = false WHERE t.id = ?1")

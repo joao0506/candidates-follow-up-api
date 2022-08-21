@@ -279,9 +279,9 @@ public class TipoRetornoResourceTest {
      * na descrição, mesmo que estejam desabilitados.
      * */
     @Test
-    public void deveRetornarTodosOsMotivosDeRetornoContendoOsCaracteresNaDescricao() throws Exception {
+    public void deveRetornarTodosOsTiposDeRetornoContendoOsCaracteresNaDescricao() throws Exception {
         List<TipoRetorno> listTiposRetornoByDescricao = Arrays.asList(tipoRetornoHabilitados.get(0), tipoRetornoDesabilitados.get(0));
-        when(tipoRetornoService.buscarTipoDeRetornoPorDescricao("mai", 0, 5)).thenReturn(new PageImpl<>(listTiposRetornoByDescricao));
+        when(tipoRetornoService.buscarTipoDeRetornoPorDescricao("mai")).thenReturn(listTiposRetornoByDescricao);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginadoByDescricao(path+"/descricao","mai", "0", "5");
         List<TipoRetorno> tipoRetornoList = TipoRetornoMocks.convertMockHttpServletResponseToListTipoRetorno(response);
