@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Integer> {
 
-    List<TipoRetorno> findAllByIsAtivoTrue();
+    List<TipoRetorno> findAllByIsAtivoTrueOrderByIdAsc();
 
     Page<TipoRetorno> findAllByIsAtivoFalse(Pageable pageable);
 

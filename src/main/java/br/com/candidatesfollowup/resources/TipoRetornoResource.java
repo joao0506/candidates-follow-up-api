@@ -39,7 +39,7 @@ public class TipoRetornoResource {
     }
 
     @PutMapping("desabilitar/{idTipoRetorno}")
-    public ResponseEntity<?> desabilitarTipoDeRetorno(@PathVariable Integer idTipoRetorno){
+    public ResponseEntity<?> desabilitarTipoDeRetorno(@PathVariable Integer idTipoRetorno) throws Exception {
         tipoRetornoService.desabilitarTipoDeRetorno(idTipoRetorno);
         return ResponseEntity.noContent().build();
     }

@@ -144,7 +144,7 @@ public class TipoRetornoServiceTest {
     * */
     @Test
     public void deveRetornarTodosOsTiposDeRetornoHabilitados(){
-        when(tipoRetornoRepository.findAllByIsAtivoTrue())
+        when(tipoRetornoRepository.findAllByIsAtivoTrueOrderByIdAsc())
                 .thenReturn(tipoRetornoHabilitados);
 
         List<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTodosTiposDeRetornoHabilitados();

@@ -1,6 +1,7 @@
 package br.com.candidatesfollowup.repositories;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
+import br.com.candidatesfollowup.domain.TipoRetorno;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,4 +50,6 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
     List<CandidatoRetorno> findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCaseAndDataRetorno(String nomeCandidato, LocalDate data);
 
     List<CandidatoRetorno> findAllByIsAtivoTrueAndNomeCandidatoContainingIgnoreCase(String nomeCandidato);
+
+    List<CandidatoRetorno> findAllByIsAtivoTrueAndTipoRetorno(TipoRetorno tipoRetorno);
 }

@@ -60,7 +60,7 @@ public class TipoRetornoService {
     }
 
     public List<TipoRetorno> buscarTodosTiposDeRetornoHabilitados() {
-        return tipoRetornoRepository.findAllByIsAtivoTrue();
+        return tipoRetornoRepository.findAllByIsAtivoTrueOrderByIdAsc();
     }
 
     public Page<TipoRetorno> buscarTodosTiposDeRetornoDesabilitados(Integer page, Integer linesPerPage) {

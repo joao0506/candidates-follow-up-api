@@ -1,6 +1,7 @@
 package br.com.candidatesfollowup.services;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
+import br.com.candidatesfollowup.domain.TipoRetorno;
 import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
 import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
 import br.com.candidatesfollowup.repositories.CandidatoRetornoRepository;
@@ -100,6 +101,10 @@ public class CandidatoRetornoService {
 
     public List<CandidatoRetorno> buscarCandidatoRetornoHabilitadosPorData(LocalDate dataRetorno){
         return candidatoRetornoRepository.findAllByIsAtivoTrueAndDataRetorno(dataRetorno);
+    }
+
+    public List<CandidatoRetorno> buscarPorTipoDeRetorno(TipoRetorno tipoRetorno) {
+        return candidatoRetornoRepository.findAllByIsAtivoTrueAndTipoRetorno(tipoRetorno);
     }
 
     public List<CandidatoRetorno> buscarCandidatoRetornoHabilitadosPorNomeCandidatoEDataRetorno(String nomeCandidato, String dataRetorno) throws ParseException {

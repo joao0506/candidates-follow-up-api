@@ -1,8 +1,10 @@
 package br.com.candidatesfollowup.resources;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
+import br.com.candidatesfollowup.domain.TipoRetorno;
 import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
 import br.com.candidatesfollowup.services.CandidatoRetornoService;
+import br.com.candidatesfollowup.services.TipoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.datetime.DateFormatter;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -27,6 +30,9 @@ public class CandidatoRetornoResource {
 
     @Autowired
     private CandidatoRetornoService candidatoRetornoService;
+
+    @Autowired
+    private TipoRetornoService tipoRetornoService;
 
     @PostMapping
     public ResponseEntity<?> inserirRetornoCandidato(@Valid @RequestBody CandidatoRetornoDTO candidatoRetornoDTO){
@@ -123,6 +129,14 @@ public class CandidatoRetornoResource {
                                                                       @RequestParam(value = "dataRetorno")  String data) throws ParseException {
 
         return ResponseEntity.ok(candidatoRetornoService.buscarCandidatoRetornoHabilitadosPorNomeCandidatoEDataRetorno(nomeCandidato, data));
+    }
+
+    @GetMapping("/tipo-retorno/{idTipoRetorno}")
+    public ResponseEntity<?> buscarCandidatoRetornoPorTipoDeRetorno(@PathVariable Integer idTipoRetorno) throws ParseException {
+        TipoRetorno tipoRetorno = tipoRetornoService.buscarTipoDeRetornoPorId(idTipoRetorno);
+        List<CandidatoRetorno> candidatoRetornoList = candidatoRetornoService.buscarPorTipoDeRetorno(tipoRetorno);
+
+        return ResponseEntity.ok(candidatoRetornoList);
     }
 
 
