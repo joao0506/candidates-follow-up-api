@@ -130,6 +130,6 @@ public class CandidatoRetornoService {
 
     public CandidatoRetorno fromDTO(CandidatoRetornoDTO candidatoRetornoDTO){
         return new CandidatoRetorno(null, candidatoRetornoDTO.getNomeCandidato().trim(), candidatoRetornoDTO.getDataRetorno(),
-                true, false, candidatoRetornoDTO.getMotivoRetorno(), candidatoRetornoDTO.getTipoRetorno());
+                true, false, candidatoRetornoDTO.getTipoRetorno());
     }
 }

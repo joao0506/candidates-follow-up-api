@@ -1,6 +1,5 @@
 package br.com.candidatesfollowup.domain.dtos;
 
-import br.com.candidatesfollowup.domain.MotivoRetorno;
 import br.com.candidatesfollowup.domain.TipoRetorno;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +19,6 @@ public class CandidatoRetornoDTO {
 
     @NotNull(message = "Data de retorno é obrigatório!")
     private LocalDate dataRetorno;
-
-    private List<MotivoRetorno> motivoRetorno;
 
     @NotNull(message = "Tipo de retorno é obrigatório!")
     private TipoRetorno tipoRetorno;

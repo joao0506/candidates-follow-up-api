@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "tipo_de_retorno")
+@Table(name = "canal_de_retorno")
 public class TipoRetorno {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

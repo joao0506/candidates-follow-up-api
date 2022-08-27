@@ -1,13 +1,11 @@
 package br.com.candidatesfollowup.services;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
-import br.com.candidatesfollowup.domain.MotivoRetorno;
 import br.com.candidatesfollowup.domain.TipoRetorno;
 import br.com.candidatesfollowup.domain.dtos.CandidatoRetornoDTO;
 import br.com.candidatesfollowup.exceptions.ObjectNotFoundException;
 import br.com.candidatesfollowup.repositories.CandidatoRetornoRepository;
 import br.com.candidatesfollowup.utils.CandidatoRetornoMocks;
-import br.com.candidatesfollowup.utils.MotivoRetornoMocks;
 import br.com.candidatesfollowup.utils.TipoRetornoMocks;
 import org.junit.Assert;
 import org.junit.Before;
@@ -199,12 +197,10 @@ public class CandidatoRetornoServiceTest {
     @Test
     public void deveConverterCandidatoRetornoDTOEmCandidatoRetorno(){
         TipoRetorno tipoRetorno = TipoRetornoMocks.gerarMockTipoRetorno();
-        List<MotivoRetorno> motivoRetornoList = MotivoRetornoMocks.gerarMockMotivoRetornoListHabilitados();
         CandidatoRetornoDTO candidatoRetornoDTO = new CandidatoRetornoDTO();
         candidatoRetornoDTO.setNomeCandidato("José da Silva");
         candidatoRetornoDTO.setDataRetorno(LocalDate.of(2022, 8, 13));
         candidatoRetornoDTO.setTipoRetorno(tipoRetorno);
-        candidatoRetornoDTO.setMotivoRetorno(motivoRetornoList);
 
         CandidatoRetorno candidatoRetorno = candidatoRetornoService.fromDTO(candidatoRetornoDTO);
 
