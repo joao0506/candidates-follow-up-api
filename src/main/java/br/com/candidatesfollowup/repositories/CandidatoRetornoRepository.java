@@ -41,7 +41,7 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
 
     void deleteAllByIsAtivoFalse();
 
-    Page<CandidatoRetorno> findAllByIsAtivoTrue(Pageable pageRequest);
+    List<CandidatoRetorno> findAllByIsAtivoTrueOrderByIdAsc();
 
     Page<CandidatoRetorno> findAllByIsAtivoFalse(Pageable pageRequest);
 

@@ -21,5 +21,5 @@ public class CandidatoRetornoDTO {
     private LocalDate dataRetorno;
 
     @NotNull(message = "Tipo de retorno é obrigatório!")
-    private TipoRetorno tipoRetorno;
+    private TipoRetorno canalDeRetorno;
 }

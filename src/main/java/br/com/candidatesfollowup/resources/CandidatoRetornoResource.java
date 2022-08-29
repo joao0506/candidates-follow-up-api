@@ -101,9 +101,8 @@ public class CandidatoRetornoResource {
     }
 
     @GetMapping
-    public ResponseEntity<?> buscarTodosRetornoCandidatoHabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                    @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
-        Page<CandidatoRetorno> candidatoRetornos = candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados(page, linesPerPage);
+    public ResponseEntity<?> buscarTodosRetornoCandidatoHabilitados(){
+        List<CandidatoRetorno> candidatoRetornos = candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados();
         return ResponseEntity.ok(candidatoRetornos);
     }
 

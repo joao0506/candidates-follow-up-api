@@ -83,9 +83,8 @@ public class CandidatoRetornoService {
         candidatoRetornoRepository.deleteAllByIsAtivoFalse();
     }
 
-    public Page<CandidatoRetorno> buscarTodosRetornoCandidatoHabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return candidatoRetornoRepository.findAllByIsAtivoTrue(pageRequest);
+    public List<CandidatoRetorno> buscarTodosRetornoCandidatoHabilitados() {
+        return candidatoRetornoRepository.findAllByIsAtivoTrueOrderByIdAsc();
     }
 
     public Page<CandidatoRetorno> buscarTodosRetornoCandidatoDesabilitados(Integer page, Integer linesPerPage) {
@@ -130,6 +129,6 @@ public class CandidatoRetornoService {
 
     public CandidatoRetorno fromDTO(CandidatoRetornoDTO candidatoRetornoDTO){
         return new CandidatoRetorno(null, candidatoRetornoDTO.getNomeCandidato().trim(), candidatoRetornoDTO.getDataRetorno(),
-                true, false, candidatoRetornoDTO.getTipoRetorno());
+                true, false, candidatoRetornoDTO.getCanalDeRetorno());
     }
 }

@@ -285,12 +285,12 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar200OkAoListarTodosOsRetornosDoCandidatoHabilitados() throws Exception {
-        when(candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados(0, 5)).thenReturn(new PageImpl<>(candidatosRetornoHabilitados));
+        when(candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados()).thenReturn(candidatosRetornoHabilitados);
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.GetPaginado(path, "0", "5");
 
         JSONArray response = CandidatoRetornoMocks.convertMockHttpServletResponseJson(candidatoRetornoResponse);
 
-        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoHabilitados(0,5);
+        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoHabilitados();
         Assert.assertEquals(candidatosRetornoHabilitados.size(), response.length());
         Assert.assertTrue(response.getJSONObject(0).getBoolean("isAtivo"));
     }

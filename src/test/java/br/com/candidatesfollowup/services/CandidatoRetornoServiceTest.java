@@ -152,9 +152,9 @@ public class CandidatoRetornoServiceTest {
      * */
     @Test
     public void deveListarTodosOsRetornosDeCandidatoHabilitados(){
-        candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados(0, 5);
+        candidatoRetornoService.buscarTodosRetornoCandidatoHabilitados();
 
-        verify(candidatoRetornoRepository, times(1)).findAllByIsAtivoTrue(any());
+        verify(candidatoRetornoRepository, times(1)).findAllByIsAtivoTrueOrderByIdAsc();
     }
 
     /*
@@ -200,7 +200,7 @@ public class CandidatoRetornoServiceTest {
         CandidatoRetornoDTO candidatoRetornoDTO = new CandidatoRetornoDTO();
         candidatoRetornoDTO.setNomeCandidato("José da Silva");
         candidatoRetornoDTO.setDataRetorno(LocalDate.of(2022, 8, 13));
-        candidatoRetornoDTO.setTipoRetorno(tipoRetorno);
+        candidatoRetornoDTO.setCanalDeRetorno(tipoRetorno);
 
         CandidatoRetorno candidatoRetorno = candidatoRetornoService.fromDTO(candidatoRetornoDTO);
 
