@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -313,7 +312,7 @@ public class TipoRetornoResourceTest {
     * */
     @Test
     public void deveRetornarListaDeTiposDeRetornoDesabilitados() throws Exception {
-        when(tipoRetornoService.buscarTodosTiposDeRetornoDesabilitados(0, 5)).thenReturn(new PageImpl<>(tipoRetornoDesabilitados));
+        when(tipoRetornoService.buscarTodosTiposDeRetornoDesabilitados()).thenReturn(tipoRetornoDesabilitados);
 
         MockHttpServletResponse response = realizarRequisicao.GetPaginado(path+"/desabilitados","0", "5");
         List<TipoRetorno> tipoRetornoList = TipoRetornoMocks.convertMockHttpServletResponseToListTipoRetorno(response);

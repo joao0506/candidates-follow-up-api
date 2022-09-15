@@ -63,9 +63,8 @@ public class TipoRetornoService {
         return tipoRetornoRepository.findAllByIsAtivoTrueOrderByIdAsc();
     }
 
-    public Page<TipoRetorno> buscarTodosTiposDeRetornoDesabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageable = PageRequest.of(page, linesPerPage);
-        return tipoRetornoRepository.findAllByIsAtivoFalse(pageable);
+    public List<TipoRetorno> buscarTodosTiposDeRetornoDesabilitados() {
+        return tipoRetornoRepository.findAllByIsAtivoFalse();
     }
 
     public List<TipoRetorno> buscarTipoDeRetornoPorDescricao(String descricao) {

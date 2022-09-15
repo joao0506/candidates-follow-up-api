@@ -7,20 +7,14 @@ import br.com.candidatesfollowup.services.CandidatoRetornoService;
 import br.com.candidatesfollowup.services.TipoRetornoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -109,7 +103,7 @@ public class CandidatoRetornoResource {
     @GetMapping("/desabilitados")
     public ResponseEntity<?> buscarTodosRetornoCandidatoDesabilitados(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                     @RequestParam(value = "linesPerPage", defaultValue = "10")  Integer linesPerPage){
-        Page<CandidatoRetorno> candidatoRetornos = candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados(page, linesPerPage);
+        List<CandidatoRetorno> candidatoRetornos = candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados();
         return ResponseEntity.ok(candidatoRetornos);
     }
 

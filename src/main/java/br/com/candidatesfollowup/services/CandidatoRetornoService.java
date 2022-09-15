@@ -87,9 +87,8 @@ public class CandidatoRetornoService {
         return candidatoRetornoRepository.findAllByIsAtivoTrueOrderByIdAsc();
     }
 
-    public Page<CandidatoRetorno> buscarTodosRetornoCandidatoDesabilitados(Integer page, Integer linesPerPage) {
-        Pageable pageRequest = PageRequest.of(page, linesPerPage);
-        return candidatoRetornoRepository.findAllByIsAtivoFalse(pageRequest);
+    public List<CandidatoRetorno> buscarTodosRetornoCandidatoDesabilitados() {
+        return candidatoRetornoRepository.findAllByIsAtivoFalse();
     }
 
     public CandidatoRetorno buscarCandidatoRetornoPorId(Integer idCandidatoRetorno){

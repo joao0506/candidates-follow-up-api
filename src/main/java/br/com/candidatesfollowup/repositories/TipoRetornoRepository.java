@@ -15,7 +15,7 @@ public interface TipoRetornoRepository extends JpaRepository<TipoRetorno, Intege
 
     List<TipoRetorno> findAllByIsAtivoTrueOrderByIdAsc();
 
-    Page<TipoRetorno> findAllByIsAtivoFalse(Pageable pageable);
+    List<TipoRetorno>findAllByIsAtivoFalse();
 
     List<TipoRetorno> findByDescricaoContainingIgnoreCase(String descricao);
 

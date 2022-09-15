@@ -47,7 +47,7 @@ public class CandidatoRetornoMocks {
     }
 
     public static JSONArray convertMockHttpServletResponseJson(MockHttpServletResponse response) throws Exception {
-        return new JSONArray(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).getString("content"));
+        return new JSONArray(response.getContentAsString(StandardCharsets.UTF_8));
     }
 
 }

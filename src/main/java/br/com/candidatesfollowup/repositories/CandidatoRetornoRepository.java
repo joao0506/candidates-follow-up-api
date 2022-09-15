@@ -43,7 +43,7 @@ public interface CandidatoRetornoRepository extends JpaRepository<CandidatoRetor
 
     List<CandidatoRetorno> findAllByIsAtivoTrueOrderByIdAsc();
 
-    Page<CandidatoRetorno> findAllByIsAtivoFalse(Pageable pageRequest);
+    List<CandidatoRetorno> findAllByIsAtivoFalse();
 
     List<CandidatoRetorno> findAllByIsAtivoTrueAndDataRetorno(LocalDate data);
 

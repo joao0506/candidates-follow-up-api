@@ -3,6 +3,7 @@ package br.com.candidatesfollowup.utils;
 import br.com.candidatesfollowup.domain.TipoRetorno;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +36,7 @@ public class TipoRetornoMocks {
     }
 
     public static List<TipoRetorno> convertMockHttpServletResponseToListTipoRetorno(MockHttpServletResponse response) throws Exception {
-        return objectMapper.readValue(new JSONObject(response.getContentAsString(StandardCharsets.UTF_8)).getString("content"),
+        return objectMapper.readValue(new JSONArray(response.getContentAsString(StandardCharsets.UTF_8)).toString(),
                 new TypeReference<List<TipoRetorno>>() {});
     }
 }

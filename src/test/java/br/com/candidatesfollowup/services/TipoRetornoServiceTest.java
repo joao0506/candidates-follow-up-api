@@ -157,12 +157,12 @@ public class TipoRetornoServiceTest {
      * */
     @Test
     public void deveRetornarTodosOsTiposDeRetornoDesabilitados(){
-        when(tipoRetornoRepository.findAllByIsAtivoFalse(PageRequest.of(0, 5)))
-                .thenReturn(new PageImpl<>(tipoRetornoDesabilitados));
+        when(tipoRetornoRepository.findAllByIsAtivoFalse())
+                .thenReturn(tipoRetornoDesabilitados);
 
-        Page<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTodosTiposDeRetornoDesabilitados(0, 5);
+        List<TipoRetorno> tipoRetornoList = tipoRetornoService.buscarTodosTiposDeRetornoDesabilitados();
 
-        Assert.assertEquals(tipoRetornoDesabilitados.size(), tipoRetornoList.getSize());
+        Assert.assertEquals(tipoRetornoDesabilitados.size(), tipoRetornoList.size());
     }
 
     /*

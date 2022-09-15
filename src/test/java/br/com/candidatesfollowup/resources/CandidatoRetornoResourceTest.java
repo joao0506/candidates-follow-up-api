@@ -2,6 +2,7 @@ package br.com.candidatesfollowup.resources;
 
 import br.com.candidatesfollowup.domain.CandidatoRetorno;
 import br.com.candidatesfollowup.services.CandidatoRetornoService;
+import br.com.candidatesfollowup.services.TipoRetornoService;
 import br.com.candidatesfollowup.utils.CandidatoRetornoMocks;
 import br.com.candidatesfollowup.utils.RealizarRequisicao;
 import org.json.JSONArray;
@@ -27,18 +28,21 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CandidatoRetornoResource.class)
-@ContextConfiguration(classes= {CandidatoRetornoResource.class})
+@ContextConfiguration(classes = {CandidatoRetornoResource.class})
 @AutoConfigureMockMvc
 public class CandidatoRetornoResourceTest {
 
     @Autowired
     private CandidatoRetornoResource candidatoRetornoResource;
 
+    @Autowired
+    private MockMvc mockMvc;
+
     @MockBean
     private CandidatoRetornoService candidatoRetornoService;
 
-    @Autowired
-    private MockMvc mockMvc;
+    @MockBean
+    private TipoRetornoService tipoRetornoService;
 
     private RealizarRequisicao realizarRequisicao = new RealizarRequisicao();
     private static String path = "/candidato-retorno/";
@@ -60,11 +64,19 @@ public class CandidatoRetornoResourceTest {
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidato() throws Exception {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"Josefino Oliveira\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
+
         Assert.assertEquals(HttpStatus.CREATED.value(), candidatoRetornoResponse.getStatus());
     }
 
@@ -75,9 +87,16 @@ public class CandidatoRetornoResourceTest {
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidatoComNomeMinimoPermitido() throws Exception {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aa\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"aa\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.CREATED.value(), candidatoRetornoResponse.getStatus());
@@ -90,9 +109,16 @@ public class CandidatoRetornoResourceTest {
     @Test
     public void deveRetornar201CreatedAoInserirORetornoDoCandidatoComNomeMaximoPermitido() throws Exception {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.CREATED.value(), candidatoRetornoResponse.getStatus());
@@ -105,9 +131,16 @@ public class CandidatoRetornoResourceTest {
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComNomeMenorQueOPermitido() throws Exception {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"a\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"a\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
@@ -120,9 +153,16 @@ public class CandidatoRetornoResourceTest {
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComNomeMaiorQueOPermitido() throws Exception {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
@@ -134,8 +174,15 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComNomeVazio() throws Exception {
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
@@ -147,8 +194,15 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoComDataVazia() throws Exception {
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"\",   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"Josefino Oliveira\",\n" +
+                "    \"dataRetorno\": \"\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
@@ -160,7 +214,10 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar400BadRequestAoInserirORetornoDoCandidatoSemTipoDeRetorno() throws Exception {
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"2022-08-08\"}";
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"Josefino Oliveira\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Post(path, candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.BAD_REQUEST.value(), candidatoRetornoResponse.getStatus());
@@ -175,9 +232,15 @@ public class CandidatoRetornoResourceTest {
         when(candidatoRetornoService.salvarCandidatoRetorno(any())).thenReturn(candidatoRetorno);
         when(candidatoRetornoService.fromDTO(any())).thenReturn(candidatoRetorno);
 
-        String candidatoRetornoRequest = "{    \"nomeCandidato\": \"José da Silva\",    \"dataRetorno\": \"2022-08-08\",   " +
-                " \"motivoRetorno\": [        {            \"id\": 1,            \"descricao\": \"Remuneração\",            \"isAtivo\": true        }    ],   " +
-                " \"tipoRetorno\": {        \"id\": 2,        \"descricao\": \"InMail\",        \"isAtivo\": true    }}";
+        String candidatoRetornoRequest = "{\n" +
+                "    \"nomeCandidato\": \"Josefino Oliveira\",\n" +
+                "    \"dataRetorno\": \"2022-08-16\",\n" +
+                "    \"canalDeRetorno\": {\n" +
+                "        \"id\": 2,\n" +
+                "        \"descricao\": \"InMail\",\n" +
+                "        \"isAtivo\": true\n" +
+                "    }\n" +
+                "}";
 
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.Put(path+"/1", candidatoRetornoRequest);
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), candidatoRetornoResponse.getStatus());
@@ -301,12 +364,12 @@ public class CandidatoRetornoResourceTest {
      * */
     @Test
     public void deveRetornar200OkAoListarTodosOsRetornosDoCandidatoDesabilitados() throws Exception {
-        when(candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados(0, 5)).thenReturn(new PageImpl<>(candidatosRetornoDesabilitados));
+        when(candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados()).thenReturn(candidatosRetornoDesabilitados);
         MockHttpServletResponse candidatoRetornoResponse = realizarRequisicao.GetPaginado(path+"/desabilitados", "0", "5");
 
         JSONArray response = CandidatoRetornoMocks.convertMockHttpServletResponseJson(candidatoRetornoResponse);
 
-        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoDesabilitados(0,5);
+        verify(candidatoRetornoService, times(1)).buscarTodosRetornoCandidatoDesabilitados();
         Assert.assertEquals(candidatosRetornoDesabilitados.size(), response.length());
         Assert.assertFalse(response.getJSONObject(0).getBoolean("isAtivo"));
     }

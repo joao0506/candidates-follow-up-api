@@ -163,9 +163,9 @@ public class CandidatoRetornoServiceTest {
      * */
     @Test
     public void deveListarTodosOsRetornosDeCandidatoDesabilitados(){
-        candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados(0, 5);
+        candidatoRetornoService.buscarTodosRetornoCandidatoDesabilitados();
 
-        verify(candidatoRetornoRepository, times(1)).findAllByIsAtivoFalse(any());
+        verify(candidatoRetornoRepository, times(1)).findAllByIsAtivoFalse();
     }
 
     /*
